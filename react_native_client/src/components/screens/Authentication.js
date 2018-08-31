@@ -9,7 +9,7 @@ class Home extends Component {
   componentDidMount() {
     console.log(this.props);
     // const { signInUser } = userActions;
-    console.log(userActions);
+    // console.log(userActions);
     // const { dispatch } = this.props;
     // dispatch(
     //   signInUser({
