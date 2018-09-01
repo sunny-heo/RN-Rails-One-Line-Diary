@@ -15,7 +15,7 @@ const {
 } = userConstants;
 
 const initialState = {
-  user: null,
+  data: null,
   pendingSignIn: false,
   signedIn: false,
   pendingSignUp: false,
@@ -41,7 +41,7 @@ export default (state = initialState, action) => {
         pendingSignIn: false,
         signedIn: true,
         authError: {},
-        user: action.payload
+        data: action.payload
       };
     }
 
@@ -59,7 +59,7 @@ export default (state = initialState, action) => {
         pendingSignUp: false,
         signedUp: true,
         signedIn: true,
-        user: action.payload
+        data: action.payload
       };
     }
 
@@ -78,7 +78,7 @@ export default (state = initialState, action) => {
         signedIn: false,
         signedUp: false,
         signedOut: true,
-        user: action.payload
+        data: action.payload
       };
     }
 

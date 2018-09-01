@@ -1,5 +1,6 @@
 import { userConstants } from "../config/constants";
 import { userService } from "../_requests";
+import { AsyncStorage } from "react-native";
 
 const {
   SIGNIN_USER_PENDING,
@@ -30,9 +31,16 @@ export default {
     dispatch({ type: SIGNIN_USER_PENDING });
     try {
       const user = await userService.signIn(userInput);
-      user.error
-        ? dispatch({ type: SIGNIN_USER_REJECTED, payload: user.error })
-        : dispatch({ type: SIGNIN_USER_FULFILLED, payload: user });
+      // user.error
+      //   ? dispatch({ type: SIGNIN_USER_REJECTED, payload: user.error })
+      //   : dispatch({ type: SIGNIN_USER_FULFILLED, payload: user });
+
+      if (user.error) {
+        dispatch({ type: SIGNIN_USER_REJECTED, payload: user.error });
+      } else {
+        dispatch({ type: SIGNIN_USER_FULFILLED, payload: user });
+        await AsyncStorage.setItem("userData", JSON.stringify(user));
+      }
     } catch (error) {
       dispatch({ type: SIGNIN_USER_REJECTED, payload: error });
     }
@@ -43,6 +51,7 @@ export default {
     try {
       await userService.signOut();
       dispatch({ type: SIGNOUT_USER_FULFILLED, payload: {} });
+      await AsyncStorage.removeItem("userData");
     } catch (error) {
       dispatch({ type: SIGNOUT_USER_REJECTED, payload: error });
     }

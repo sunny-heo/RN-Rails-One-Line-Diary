@@ -20,12 +20,12 @@ class Api::V1::SessionsController < Api::ApplicationController
   # skip_before_action :verify_authenticity_token
 
   def create
-    user = User.find_by_email(params[:email])
-    if user&.authenticate(params[:password])
+    user = User.find_by_email params[:email]
+    if user&.authenticate params[:password]
       session[:user_id] = user.id
-      render(json: { id: user.id})
+      render json: { id: user.id}
     else
-      head :not_found
+      render json: { error: {message: "Email or Password is invalid"}}
     end
   end
 

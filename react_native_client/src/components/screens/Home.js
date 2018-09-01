@@ -1,30 +1,49 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Platform, StyleSheet, Text, View } from "react-native";
+import { Text, View, StyleSheet, AsyncStorage } from "react-native";
+import { Button, Card } from "react-native-material-ui";
 import { userActions } from "../../actions";
 
 const mapStateToProps = (state, nextOwnProps) => state;
 
 class Home extends Component {
-  componentDidMount() {
-    console.log(this.props);
-    // const { signInUser } = userActions;
-    console.log(userActions);
-    // const { dispatch } = this.props;
-    // dispatch(
-    //   signInUser({
-    //     email: "sunny@gmail.com",
-    //     password: "superSecret1@"
-    //   })
-    // );
+  constructor() {
+    super();
+    this.state = {
+      user: null
+    };
+  }
+  async componentDidMount() {
+    // const user =
+    const user = JSON.parse(await AsyncStorage.getItem("userData"));
+    this.setState({ user });
+    console.log(user);
   }
   render() {
     return (
-      <View>
-        <Text>Hello world</Text>
+      <View style={styles.container}>
+        <Button
+          primary
+          text="Sign In"
+          onPress={() => this.props.navigation.navigate("SignIn")}
+        />
+        <Button
+          primary
+          text="Sign Out"
+          onPress={() => this.props.dispatch(userActions.signOutUser())}
+        />
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+    height: "100%",
+    flex: 1,
+    justifyContent: "center"
+  }
+});
 
 export default connect(mapStateToProps)(Home);
