@@ -7,31 +7,19 @@ import { userActions } from "../../actions";
 const mapStateToProps = (state, nextOwnProps) => state;
 
 class Home extends Component {
-  constructor() {
-    super();
-    this.state = {
-      user: null
-    };
-  }
-  async componentDidMount() {
-    // const user =
-    const user = JSON.parse(await AsyncStorage.getItem("userData"));
-    this.setState({ user });
-    console.log(user);
-  }
+  static navigationOptions = {
+    title: "Welcome to One Line Diary!"
+  };
+
+  _onSignOut = () => {
+    this.props.dispatch(userActions.signOutUser());
+    this.props.navigation.navigate("Auth");
+  };
+
   render() {
     return (
       <View style={styles.container}>
-        <Button
-          primary
-          text="Sign In"
-          onPress={() => this.props.navigation.navigate("SignIn")}
-        />
-        <Button
-          primary
-          text="Sign Out"
-          onPress={() => this.props.dispatch(userActions.signOutUser())}
-        />
+        <Button primary text="Sign Out" onPress={this._onSignOut} />
       </View>
     );
   }
@@ -39,8 +27,6 @@ class Home extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    height: "100%",
     flex: 1,
     justifyContent: "center"
   }

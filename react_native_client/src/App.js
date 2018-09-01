@@ -3,7 +3,7 @@ import { Platform, StyleSheet, Text, View, Button } from "react-native";
 import { Provider } from "react-redux";
 import { COLOR, ThemeContext, getTheme } from "react-native-material-ui";
 import store from "./store";
-import RootStack from "./components/RootStack";
+import RootSwitch from "./components/RootSwitch";
 
 const uiTheme = {
   palette: {
@@ -16,7 +16,7 @@ class App extends Component {
     return (
       <Provider store={store()}>
         <ThemeContext.Provider value={getTheme(uiTheme)}>
-          <RootStack />
+          <RootSwitch />
         </ThemeContext.Provider>
       </Provider>
     );

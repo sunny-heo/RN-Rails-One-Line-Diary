@@ -51,7 +51,8 @@ export default {
     try {
       await userService.signOut();
       dispatch({ type: SIGNOUT_USER_FULFILLED, payload: {} });
-      await AsyncStorage.removeItem("userData");
+      // await AsyncStorage.removeItem("userData");
+      await AsyncStorage.clear();
     } catch (error) {
       dispatch({ type: SIGNOUT_USER_REJECTED, payload: error });
     }
