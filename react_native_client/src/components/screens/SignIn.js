@@ -1,19 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-  ActivityIndicator
-} from "react-native";
+import { StyleSheet, Text, View, ActivityIndicator, Image } from "react-native";
 import { userActions } from "../../actions";
 import { TextField } from "react-native-material-textfield";
-import { Button, Card } from "react-native-material-ui";
+import { Button } from "react-native-material-ui";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 const mapStateToProps = (state, nextOwnProps) => state;
 
 class SignIn extends Component {
+  static navigationOptions = {
+    title: "Please sign in"
+  };
+
   constructor() {
     super();
     this.state = {
@@ -25,33 +23,13 @@ class SignIn extends Component {
     };
     this.emailRef = this.updateRef.bind(this, "email");
     this.passwordRef = this.updateRef.bind(this, "password");
-
-    this.onChangeText = this.onChangeText.bind(this);
-    this.onSubmitEmail = this.onSubmitEmail.bind(this);
-    this.onSubmitSignIn = this.onSubmitSignIn.bind(this);
-    this.onAccessoryPress = this.onAccessoryPress.bind(this);
-    this.renderPasswordAccessory = this.renderPasswordAccessory.bind(this);
   }
 
-  componentDidMount() {
-    console.log("componentDidMount");
-    console.log(this.props.user.signedIn);
-    if (this.props.user.signedIn) {
-      this.props.navigation.navigate("Home");
-    }
-  }
-  componentDidUpdate(prevProps) {
-    const { user, navigation } = this.props;
-
-    if (!prevProps.user.signedIn && user.signedIn) {
-      navigation.navigate("Home");
-    }
-  }
-  onSubmitEmail() {
+  _onSubmitEmail = () => {
     this.password.focus();
-  }
+  };
 
-  onChangeText(text) {
+  _onChangeText = text => {
     ["email", "password"]
       .map(name => ({ name, ref: this[name] }))
       .forEach(({ name, ref }) => {
@@ -59,9 +37,9 @@ class SignIn extends Component {
           this.setState({ [name]: text });
         }
       });
-  }
+  };
 
-  onSubmitSignIn() {
+  _onSubmit = () => {
     let errors = {};
 
     ["email", "password"].forEach(name => {
@@ -81,20 +59,17 @@ class SignIn extends Component {
       const { signInUser } = userActions;
       const { email, password } = this.state;
       this.props.dispatch(signInUser({ email, password }));
+      this.props.navigation.navigate("App");
     }
-  }
+  };
 
-  onSubmit() {
-    let errors = {};
-  }
-
-  onAccessoryPress() {
+  _onAccessoryPress = () => {
     this.setState(({ secureTextEntry }) => ({
       secureTextEntry: !secureTextEntry
     }));
-  }
+  };
 
-  renderPasswordAccessory() {
+  _renderPasswordAccessory = () => {
     let { secureTextEntry } = this.state;
 
     let name = secureTextEntry ? "visibility" : "visibility-off";
@@ -104,11 +79,11 @@ class SignIn extends Component {
         size={24}
         name={name}
         color={TextField.defaultProps.baseColor}
-        onPress={this.onAccessoryPress}
+        onPress={this._onAccessoryPress}
         suppressHighlighting
       />
     );
-  }
+  };
 
   updateRef(name, ref) {
     this[name] = ref;
@@ -116,56 +91,78 @@ class SignIn extends Component {
 
   render() {
     const { email, password, secureTextEntry, errors = {} } = this.state;
-    return this.props.user.pendingSignIn ? (
-      <ActivityIndicator size="large" />
-    ) : (
-      <View style={styles.container}>
-        <Text style={styles.title}>Sign In</Text>
 
-        <TextField
-          ref={this.emailRef}
-          label="Email"
-          value={email}
-          keyboardType="email-address"
-          onChangeText={email => this.setState({ email })}
-          onSubmitEditing={this.onSubmitEmail}
-          autoCapitalize="none"
-          error={errors.email}
+    return (
+      <View style={styles.root}>
+        <Image
+          source={require("../../img/auth_background.jpg")}
+          style={styles.backgroundImage}
         />
-        <TextField
-          ref={this.passwordRef}
-          label="Password"
-          value={password}
-          secureTextEntry={secureTextEntry}
-          maxLength={30}
-          characterRestriction={20}
-          returnKeyType="done"
-          renderAccessory={this.renderPasswordAccessory}
-          onChangeText={this.onChangeText}
-          clearTextOnFocus={true}
-          autoCapitalize="none"
-          error={errors.password}
-        />
+        <View style={styles.container}>
+          <Text style={styles.title}>Sign In</Text>
+          <TextField
+            ref={this.emailRef}
+            label="Email"
+            value={email}
+            keyboardType="email-address"
+            _onChangeText={this._onChangeText}
+            onSubmitEditing={this._onSubmitEmail}
+            autoCapitalize="none"
+            error={errors.email}
+          />
+          <TextField
+            ref={this.passwordRef}
+            label="Password"
+            value={password}
+            secureTextEntry={secureTextEntry}
+            maxLength={30}
+            characterRestriction={20}
+            returnKeyType="done"
+            renderAccessory={this._renderPasswordAccessory}
+            onChangeText={this.onChangeText}
+            clearTextOnFocus={true}
+            autoCapitalize="none"
+            error={errors.password}
+          />
 
-        {this.props.user.authError ? (
-          <Text style={styles.authFailure}>
-            {this.props.user.authError.message}
-          </Text>
-        ) : null}
-        <Button
-          primary
-          text="Sign In"
-          style={styles.submitBtn}
-          onPress={this.onSubmitSignIn}
-        />
+          {this.props.user.authError ? (
+            <Text style={styles.authFailure}>
+              {this.props.user.authError.message}
+            </Text>
+          ) : null}
+          {this.props.user.pendingSignIn ? (
+            <ActivityIndicator size="large" />
+          ) : (
+            <Button
+              primary
+              raised
+              text="Sign In"
+              style={styles.submitBtn}
+              onPress={this._onSubmit}
+            />
+          )}
+        </View>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+    justifyContent: "center"
+  },
+  backgroundImage: {
+    flex: 1,
+    width: "100%"
+  },
   container: {
-    margin: 20
+    position: "absolute",
+    width: "90%",
+    margin: 20,
+    padding: 20,
+    backgroundColor: "rgba(255,255,255, 0.8)",
+    borderRadius: 4
   },
   title: {
     fontSize: 30,
