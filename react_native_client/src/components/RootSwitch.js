@@ -1,7 +1,7 @@
-import { Home, SignIn, AuthLoading } from "./screens";
+import { AuthLoading, Home, SignIn, Profile } from "./screens";
 import { createStackNavigator, createSwitchNavigator } from "react-navigation";
 
-const App = createStackNavigator({ Home });
+const App = createStackNavigator({ Home, Profile });
 const Auth = createStackNavigator({ SignIn });
 
 export default createSwitchNavigator(

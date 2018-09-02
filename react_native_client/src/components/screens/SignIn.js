@@ -18,7 +18,7 @@ class SignIn extends Component {
       // email: "",
       // password: "",
       email: "sunny@gmail.com",
-      password: "superSecret1@",
+      password: "", //superSecret1@
       secureTextEntry: true
     };
     this.emailRef = this.updateRef.bind(this, "email");
@@ -37,9 +37,9 @@ class SignIn extends Component {
           this.setState({ [name]: text });
         }
       });
+    console.log(text);
   };
-
-  _onSubmit = () => {
+  _validateInputs = () => {
     let errors = {};
 
     ["email", "password"].forEach(name => {
@@ -53,13 +53,23 @@ class SignIn extends Component {
         }
       }
     });
-
     this.setState({ errors });
-    if (!Object.keys(errors).length) {
-      const { signInUser } = userActions;
-      const { email, password } = this.state;
-      this.props.dispatch(signInUser({ email, password }));
-      this.props.navigation.navigate("App");
+  };
+
+  _onSubmit = async () => {
+    try {
+      await this._validateInputs();
+      const { email, password, errors } = this.state;
+
+      if (!Object.keys(errors).length) {
+        const { signInUser } = userActions;
+        await this.props.dispatch(signInUser({ email, password }));
+
+        const { user, navigation } = this.props;
+        if (user.signedIn) navigation.navigate("App");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -91,7 +101,7 @@ class SignIn extends Component {
 
   render() {
     const { email, password, secureTextEntry, errors = {} } = this.state;
-
+    console.log(password);
     return (
       <View style={styles.root}>
         <Image
@@ -119,7 +129,7 @@ class SignIn extends Component {
             characterRestriction={20}
             returnKeyType="done"
             renderAccessory={this._renderPasswordAccessory}
-            onChangeText={this.onChangeText}
+            onChangeText={this._onChangeText}
             clearTextOnFocus={true}
             autoCapitalize="none"
             error={errors.password}

@@ -9,8 +9,6 @@ import { Today, People, Diaries, Settings } from "../presentations";
 const mapStateToProps = (state, nextOwnProps) => state;
 
 const Presentation = ({ active }) => {
-  // const TextComponent = active;
-  console.log(active);
   switch (active) {
     case "today":
       return <Today />;
@@ -20,25 +18,26 @@ const Presentation = ({ active }) => {
       return <Diaries />;
     case "settings":
       return <Settings />;
-
     default:
       return <Today />;
   }
 };
 
 class Home extends Component {
-  static navigationOptions = {
-    title: "One Line Diary",
-    headerRight: (
-      <View>
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: "One Line Diary",
+      headerRight: (
         <IconToggle
-          name="settings"
-          onPress={() => alert("This is a button!")}
+          name="account-circle"
+          onPress={() => navigation.navigate("Profile")}
         />
-      </View>
-    )
+      )
+    };
   };
-
+  _navigateToProfile = () => {
+    this.props.navigation.navigate("Profile");
+  };
   state = { active: "" };
 
   _onSignOut = () => {

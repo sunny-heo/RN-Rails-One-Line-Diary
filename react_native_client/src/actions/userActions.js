@@ -13,7 +13,11 @@ const {
 
   SIGNOUT_USER_PENDING,
   SIGNOUT_USER_REJECTED,
-  SIGNOUT_USER_FULFILLED
+  SIGNOUT_USER_FULFILLED,
+
+  CURRENT_USER_PENDING,
+  CURRENT_USER_REJECTED,
+  CURRENT_USER_FULFILLED
 } = userConstants;
 
 export default {
@@ -55,6 +59,17 @@ export default {
       await AsyncStorage.clear();
     } catch (error) {
       dispatch({ type: SIGNOUT_USER_REJECTED, payload: error });
+    }
+  },
+  currentUser: () => async dispatch => {
+    dispatch({ type: CURRENT_USER_PENDING });
+    try {
+      const user = JSON.parse(await AsyncStorage.getItem("userData"));
+      user
+        ? dispatch({ type: CURRENT_USER_FULFILLED, payload: user })
+        : dispatch({ type: CURRENT_USER_REJECTED, payload: null });
+    } catch (error) {
+      dispatch({ type: CURRENT_USER_REJECTED, payload: error });
     }
   }
 };

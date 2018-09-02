@@ -11,7 +11,11 @@ const {
 
   SIGNOUT_USER_PENDING,
   SIGNOUT_USER_REJECTED,
-  SIGNOUT_USER_FULFILLED
+  SIGNOUT_USER_FULFILLED,
+
+  CURRENT_USER_PENDING,
+  CURRENT_USER_REJECTED,
+  CURRENT_USER_FULFILLED
 } = userConstants;
 
 const initialState = {
@@ -22,19 +26,23 @@ const initialState = {
   signedUp: false,
   pendingSignOut: false,
   signedOut: false,
+  pendingCurrentUser: false,
+  currentUser: false,
   authError: {}
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case CURRENT_USER_PENDING:
     case SIGNIN_USER_PENDING: {
       return { ...state, pendingSignIn: true };
     }
 
+    case CURRENT_USER_REJECTED:
     case SIGNIN_USER_REJECTED: {
       return { ...state, pendingSignIn: false, authError: action.payload };
     }
-
+    case CURRENT_USER_FULFILLED:
     case SIGNIN_USER_FULFILLED: {
       return {
         ...state,
