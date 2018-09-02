@@ -12,11 +12,16 @@ import { userActions } from "../../actions";
 const mapStateToProps = (state, nextOwnProps) => state;
 
 class AuthLoading extends React.Component {
-  componentDidMount() {
-    const { dispatch, user, navigation } = this.props;
-    console.log(dispatch(userActions.currentUser()));
+  async componentDidMount() {
+    try {
+      const { currentUser } = userActions;
+      await this.props.dispatch(currentUser());
 
-    navigation.navigate(user.signedIn ? "App" : "Auth");
+      const { user, navigation } = this.props;
+      navigation.navigate(user.signedIn ? "App" : "Auth");
+    } catch (error) {
+      console.log(error);
+    }
   }
   render() {
     return (
