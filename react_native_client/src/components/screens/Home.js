@@ -4,7 +4,8 @@ import { Text, View, StyleSheet, AsyncStorage } from "react-native";
 import { Button, IconToggle } from "react-native-material-ui";
 import { userActions } from "../../actions";
 import { BottomNav } from "../navigations";
-import { Today, People, Diaries, Settings } from "../presentations";
+import { Today, People, Diaries, Settings } from "../stacks";
+import { TodayIndex } from "../presentations";
 
 const mapStateToProps = (state, nextOwnProps) => state;
 
@@ -38,7 +39,7 @@ class Home extends Component {
   _navigateToProfile = () => {
     this.props.navigation.navigate("Profile");
   };
-  state = { active: "" };
+  state = { active: "today" };
 
   _onSignOut = () => {
     this.props.dispatch(userActions.signOutUser());
@@ -53,15 +54,14 @@ class Home extends Component {
     return (
       <View style={styles.container}>
         {/* <Button raised primary text="Sign Out" onPress={this._onSignOut} /> */}
-        <View style={styles.presentation}>
-          {<Presentation active={this.state.active} />}
-        </View>
-        <View style={styles.bottomNav}>
-          <BottomNav
-            active={this.state.active}
-            onPressBotNavItem={this.onPressBotNavItem}
-          />
-        </View>
+
+        {/* <Presentation active={this.state.active} /> */}
+        <TodayIndex />
+
+        <BottomNav
+          active={this.state.active}
+          onPressBotNavItem={this.onPressBotNavItem}
+        />
       </View>
     );
   }
@@ -69,14 +69,12 @@ class Home extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    display: "flex",
     flex: 1,
-    justifyContent: "center"
+    flexDirection: "column",
+    justifyContent: "flex-start"
+    // alignItems: "flex-start"
   },
-  presentation: {
-    // backgroundColor: "black",
-    flex: 1
-  },
-  bottomNav: {},
 
   settingsBtn: {
     // alignText: "center"

@@ -7,7 +7,11 @@ class BottomNav extends Component {
   render() {
     const { onPressBotNavItem, active } = this.props;
     return (
-      <BottomNavigation active={active} hidden={false}>
+      <BottomNavigation
+        active={active}
+        hidden={false}
+        style={{ background: "transparent" }}
+      >
         <BottomNavigation.Action
           key="today"
           icon="today"

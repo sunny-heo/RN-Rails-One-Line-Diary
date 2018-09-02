@@ -169,8 +169,8 @@ const styles = StyleSheet.create({
   container: {
     position: "absolute",
     width: "90%",
-    margin: 20,
-    padding: 20,
+    margin: 16,
+    padding: 16,
     backgroundColor: "rgba(255,255,255, 0.8)",
     borderRadius: 4
   },
