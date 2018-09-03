@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import {
   ActivityIndicator,
   AsyncStorage,
@@ -6,18 +7,22 @@ import {
   StyleSheet,
   View
 } from "react-native";
+import { userActions } from "../../actions";
+
+const mapStateToProps = (state, nextOwnProps) => state;
 
 class AuthLoading extends React.Component {
-  constructor(props) {
-    super(props);
-    this._checkUserSignedIn();
+  async componentDidMount() {
+    try {
+      const { currentUser } = userActions;
+      await this.props.dispatch(currentUser());
+
+      const { user, navigation } = this.props;
+      navigation.navigate(user.signedIn ? "App" : "Auth");
+    } catch (error) {
+      console.log(error);
+    }
   }
-
-  _checkUserSignedIn = async () => {
-    const userData = await AsyncStorage.getItem("userData");
-    this.props.navigation.navigate(userData ? "App" : "Auth");
-  };
-
   render() {
     return (
       <View style={styles.container}>
@@ -36,4 +41,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AuthLoading;
+export default connect(mapStateToProps)(AuthLoading);

@@ -1,15 +1,25 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { StyleSheet, Text, View, ActivityIndicator, Image } from "react-native";
+import {
+  View,
+  Animated,
+  Text,
+  ActivityIndicator,
+  Keyboard,
+  StyleSheet
+} from "react-native";
 import { userActions } from "../../actions";
 import { TextField } from "react-native-material-textfield";
 import { Button } from "react-native-material-ui";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
+
+const IMAGE_SCALE_LARGE = 1.15;
+const IMAGE_TRNSLATE_X = 20;
 const mapStateToProps = (state, nextOwnProps) => state;
 
 class SignIn extends Component {
   static navigationOptions = {
-    title: "Please sign in"
+    title: "Authentication"
   };
 
   constructor() {
@@ -21,9 +31,63 @@ class SignIn extends Component {
       password: "superSecret1@",
       secureTextEntry: true
     };
+    this.imageScale = new Animated.Value(1);
+    this.keyboardHeight = new Animated.Value(0);
+    this.imageTranslateX = new Animated.Value(0);
+
     this.emailRef = this.updateRef.bind(this, "email");
     this.passwordRef = this.updateRef.bind(this, "password");
   }
+
+  componentWillMount() {
+    this.keyboardWillShowSub = Keyboard.addListener(
+      "keyboardWillShow",
+      this.keyboardWillShow
+    );
+    this.keyboardWillHideSub = Keyboard.addListener(
+      "keyboardWillHide",
+      this.keyboardWillHide
+    );
+  }
+
+  componentWillUnmount() {
+    this.keyboardWillShowSub.remove();
+    this.keyboardWillHideSub.remove();
+  }
+
+  keyboardWillShow = event => {
+    Animated.parallel([
+      Animated.timing(this.keyboardHeight, {
+        duration: event.duration,
+        toValue: -event.endCoordinates.height
+      }),
+      Animated.timing(this.imageScale, {
+        duration: event.duration,
+        toValue: IMAGE_SCALE_LARGE
+      }),
+      Animated.timing(this.imageTranslateX, {
+        duration: event.duration,
+        toValue: IMAGE_TRNSLATE_X
+      })
+    ]).start();
+  };
+
+  keyboardWillHide = event => {
+    Animated.parallel([
+      Animated.timing(this.keyboardHeight, {
+        duration: event.duration,
+        toValue: 0
+      }),
+      Animated.timing(this.imageScale, {
+        duration: event.duration,
+        toValue: 1
+      }),
+      Animated.timing(this.imageTranslateX, {
+        duration: event.duration,
+        toValue: 0
+      })
+    ]).start();
+  };
 
   _onSubmitEmail = () => {
     this.password.focus();
@@ -38,8 +102,7 @@ class SignIn extends Component {
         }
       });
   };
-
-  _onSubmit = () => {
+  _validateInputs = () => {
     let errors = {};
 
     ["email", "password"].forEach(name => {
@@ -53,13 +116,23 @@ class SignIn extends Component {
         }
       }
     });
-
     this.setState({ errors });
-    if (!Object.keys(errors).length) {
-      const { signInUser } = userActions;
-      const { email, password } = this.state;
-      this.props.dispatch(signInUser({ email, password }));
-      this.props.navigation.navigate("App");
+  };
+
+  _onSubmit = async () => {
+    try {
+      await this._validateInputs();
+      const { email, password, errors } = this.state;
+
+      if (!Object.keys(errors).length) {
+        const { signInUser } = userActions;
+        await this.props.dispatch(signInUser({ email, password }));
+
+        const { user, navigation } = this.props;
+        if (user.signedIn) navigation.navigate("App");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -91,12 +164,19 @@ class SignIn extends Component {
 
   render() {
     const { email, password, secureTextEntry, errors = {} } = this.state;
-
     return (
-      <View style={styles.root}>
-        <Image
+      <Animated.View style={[styles.root, { marginTop: this.keyboardHeight }]}>
+        <Animated.Image
           source={require("../../img/auth_background.jpg")}
-          style={styles.backgroundImage}
+          style={[
+            styles.backgroundImage,
+            {
+              transform: [
+                { scale: this.imageScale },
+                { translateX: this.imageTranslateX }
+              ]
+            }
+          ]}
         />
         <View style={styles.container}>
           <Text style={styles.title}>Sign In</Text>
@@ -108,6 +188,7 @@ class SignIn extends Component {
             _onChangeText={this._onChangeText}
             onSubmitEditing={this._onSubmitEmail}
             autoCapitalize="none"
+            autoCorrect={false}
             error={errors.email}
           />
           <TextField
@@ -119,7 +200,7 @@ class SignIn extends Component {
             characterRestriction={20}
             returnKeyType="done"
             renderAccessory={this._renderPasswordAccessory}
-            onChangeText={this.onChangeText}
+            onChangeText={this._onChangeText}
             clearTextOnFocus={true}
             autoCapitalize="none"
             error={errors.password}
@@ -131,7 +212,7 @@ class SignIn extends Component {
             </Text>
           ) : null}
           {this.props.user.pendingSignIn ? (
-            <ActivityIndicator size="large" />
+            <ActivityIndicator size="small" />
           ) : (
             <Button
               primary
@@ -142,7 +223,7 @@ class SignIn extends Component {
             />
           )}
         </View>
-      </View>
+      </Animated.View>
     );
   }
 }
@@ -150,17 +231,21 @@ class SignIn extends Component {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    alignItems: "center",
     justifyContent: "center"
   },
+  foo: {
+    flex: 1
+  },
   backgroundImage: {
-    flex: 1,
-    width: "100%"
+    position: "absolute",
+    width: "100%",
+    height: "100%"
   },
   container: {
-    position: "absolute",
     width: "90%",
-    margin: 20,
-    padding: 20,
+    margin: 16,
+    padding: 16,
     backgroundColor: "rgba(255,255,255, 0.8)",
     borderRadius: 4
   },

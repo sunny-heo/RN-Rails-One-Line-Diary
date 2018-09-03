@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { BottomNavigation } from "react-native-material-ui";
 
 class BottomNav extends Component {
-  state = { active: "" };
-
   render() {
     const { onPressBotNavItem, active } = this.props;
     return (
@@ -21,9 +19,8 @@ class BottomNav extends Component {
           onPress={onPressBotNavItem("people")}
         />
         <BottomNavigation.Action
-          key="notes"
+          key="diaries"
           icon="event-note"
-          // icon="diary"
           label="Diaries"
           onPress={onPressBotNavItem("diaries")}
         />

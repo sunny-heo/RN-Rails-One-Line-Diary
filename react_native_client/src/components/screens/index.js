@@ -1,5 +1,7 @@
 import RootStack from "../RootSwitch";
+import AuthLoading from "./AuthLoading";
 import Home from "./Home";
 import SignIn from "./SignIn";
-import AuthLoading from "./AuthLoading";
-export { RootStack, Home, SignIn, AuthLoading };
+import Profile from "./Profile";
+
+export { RootStack, AuthLoading, Home, SignIn, Profile };

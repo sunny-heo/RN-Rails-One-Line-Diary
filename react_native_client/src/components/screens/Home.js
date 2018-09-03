@@ -4,65 +4,72 @@ import { Text, View, StyleSheet, AsyncStorage } from "react-native";
 import { Button, IconToggle } from "react-native-material-ui";
 import { userActions } from "../../actions";
 import { BottomNav } from "../navigations";
-import { Today, People, Diaries, Settings } from "../presentations";
+import { Today } from "../stacks";
+
+import {
+  TodayIndex,
+  PeopleIndex,
+  DiariesIndex,
+  SettingsIndex
+} from "../presentations";
 
 const mapStateToProps = (state, nextOwnProps) => state;
 
 const Presentation = ({ active }) => {
-  // const TextComponent = active;
-  console.log(active);
+  // console.log(active);
   switch (active) {
     case "today":
-      return <Today />;
+      return <TodayIndex />;
     case "people":
-      return <People />;
+      return <PeopleIndex />;
     case "diaries":
-      return <Diaries />;
+      return <DiariesIndex />;
     case "settings":
-      return <Settings />;
-
+      return <SettingsIndex />;
     default:
-      return <Today />;
+      return;
   }
 };
 
 class Home extends Component {
-  static navigationOptions = {
-    title: "One Line Diary",
-    headerRight: (
-      <View>
+  constructor() {
+    super();
+    this.state = {
+      active: "today"
+    };
+  }
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: "One Line Diary",
+      headerRight: (
         <IconToggle
-          name="settings"
-          onPress={() => alert("This is a button!")}
+          name="account-circle"
+          onPress={() => navigation.navigate("Profile")}
         />
-      </View>
-    )
+      )
+    };
   };
 
-  state = { active: "" };
+  _navigateToProfile = () => {
+    this.props.navigation.navigate("Profile");
+  };
 
   _onSignOut = () => {
     this.props.dispatch(userActions.signOutUser());
     this.props.navigation.navigate("Auth");
   };
 
-  onPressBotNavItem = props => () => {
-    this.setState({ active: props });
+  onPressBotNavItem = active => () => {
+    console.log(active);
+    this.setState({ active });
   };
 
   render() {
+    const { active } = this.state;
     return (
       <View style={styles.container}>
-        {/* <Button raised primary text="Sign Out" onPress={this._onSignOut} /> */}
-        <View style={styles.presentation}>
-          {<Presentation active={this.state.active} />}
-        </View>
-        <View style={styles.bottomNav}>
-          <BottomNav
-            active={this.state.active}
-            onPressBotNavItem={this.onPressBotNavItem}
-          />
-        </View>
+        <Presentation active={active} />
+        <BottomNav active={active} onPressBotNavItem={this.onPressBotNavItem} />
       </View>
     );
   }
@@ -71,17 +78,10 @@ class Home extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center"
+    flexDirection: "column"
   },
   presentation: {
-    // backgroundColor: "black",
     flex: 1
-  },
-  bottomNav: {},
-
-  settingsBtn: {
-    // alignText: "center"
-    color: "red"
   }
 });
 
