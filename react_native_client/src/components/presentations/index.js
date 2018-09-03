@@ -1,3 +1,8 @@
 import TodayIndex from "./TodayIndex";
 import TodayDiary from "./TodayDiary";
-export { TodayIndex, TodayDiary };
+
+import PeopleIndex from "./PeopleIndex";
+import DiariesIndex from "./DiariesIndex";
+import SettingsIndex from "./SettingsIndex";
+
+export { TodayIndex, TodayDiary, PeopleIndex, DiariesIndex, SettingsIndex };

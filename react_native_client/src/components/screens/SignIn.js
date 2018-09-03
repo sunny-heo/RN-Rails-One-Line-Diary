@@ -15,7 +15,6 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 
 const IMAGE_SCALE_LARGE = 1.15;
 const IMAGE_TRNSLATE_X = 20;
-
 const mapStateToProps = (state, nextOwnProps) => state;
 
 class SignIn extends Component {

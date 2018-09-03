@@ -4,27 +4,40 @@ import { Text, View, StyleSheet, AsyncStorage } from "react-native";
 import { Button, IconToggle } from "react-native-material-ui";
 import { userActions } from "../../actions";
 import { BottomNav } from "../navigations";
-import { Today, People, Diaries, Settings } from "../stacks";
-import { TodayIndex } from "../presentations";
+import { Today } from "../stacks";
+
+import {
+  TodayIndex,
+  PeopleIndex,
+  DiariesIndex,
+  SettingsIndex
+} from "../presentations";
 
 const mapStateToProps = (state, nextOwnProps) => state;
 
 const Presentation = ({ active }) => {
+  // console.log(active);
   switch (active) {
     case "today":
-      return <Today />;
+      return <TodayIndex />;
     case "people":
-      return <People />;
+      return <PeopleIndex />;
     case "diaries":
-      return <Diaries />;
+      return <DiariesIndex />;
     case "settings":
-      return <Settings />;
+      return <SettingsIndex />;
     default:
-      return <Today />;
+      return;
   }
 };
 
 class Home extends Component {
+  constructor() {
+    super();
+    this.state = {
+      active: "today"
+    };
+  }
   static navigationOptions = ({ navigation }) => {
     return {
       title: "One Line Diary",
@@ -36,32 +49,27 @@ class Home extends Component {
       )
     };
   };
+
   _navigateToProfile = () => {
     this.props.navigation.navigate("Profile");
   };
-  state = { active: "today" };
 
   _onSignOut = () => {
     this.props.dispatch(userActions.signOutUser());
     this.props.navigation.navigate("Auth");
   };
 
-  onPressBotNavItem = props => () => {
-    this.setState({ active: props });
+  onPressBotNavItem = active => () => {
+    console.log(active);
+    this.setState({ active });
   };
 
   render() {
+    const { active } = this.state;
     return (
       <View style={styles.container}>
-        {/* <Button raised primary text="Sign Out" onPress={this._onSignOut} /> */}
-
-        {/* <Presentation active={this.state.active} /> */}
-        <TodayIndex />
-
-        <BottomNav
-          active={this.state.active}
-          onPressBotNavItem={this.onPressBotNavItem}
-        />
+        <Presentation active={active} />
+        <BottomNav active={active} onPressBotNavItem={this.onPressBotNavItem} />
       </View>
     );
   }
@@ -69,16 +77,11 @@ class Home extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
     flex: 1,
-    flexDirection: "column",
-    justifyContent: "flex-start"
-    // alignItems: "flex-start"
+    flexDirection: "column"
   },
-
-  settingsBtn: {
-    // alignText: "center"
-    color: "red"
+  presentation: {
+    flex: 1
   }
 });
 

@@ -2,32 +2,29 @@ import React, { Component } from "react";
 import { BottomNavigation } from "react-native-material-ui";
 
 class BottomNav extends Component {
-  state = { active: "" };
-
+  state = { active: "today" };
   render() {
     const { onPressBotNavItem, active } = this.props;
+    console.log(active);
     return (
-      <BottomNavigation
-        active={active}
-        hidden={false}
-        style={{ background: "transparent" }}
-      >
+      <BottomNavigation active={active} hidden={false}>
         <BottomNavigation.Action
           key="today"
           icon="today"
           label="Today"
           onPress={onPressBotNavItem("today")}
+          // onPress={() => this.setState({ active: "today" })}
         />
         <BottomNavigation.Action
           key="people"
           icon="people"
           label="People"
           onPress={onPressBotNavItem("people")}
+          // onPress={() => this.setState({ active: "people" })}
         />
         <BottomNavigation.Action
-          key="notes"
+          key="diaries"
           icon="event-note"
-          // icon="diary"
           label="Diaries"
           onPress={onPressBotNavItem("diaries")}
         />

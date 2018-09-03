@@ -5,8 +5,6 @@ import { Today } from "./stacks";
 const App = createStackNavigator({ Home, Profile, Today });
 const Auth = createStackNavigator({ SignIn });
 
-// const Homm = createStackNavigator({});
-
 export default createSwitchNavigator(
   {
     AuthLoading,
