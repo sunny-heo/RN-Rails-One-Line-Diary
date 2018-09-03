@@ -1,19 +1,21 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
-  StyleSheet,
-  Text,
   View,
-  ActivityIndicator,
   Animated,
-  Image,
+  Text,
+  ActivityIndicator,
   Keyboard,
-  KeyboardAvoidingView
+  StyleSheet
 } from "react-native";
 import { userActions } from "../../actions";
 import { TextField } from "react-native-material-textfield";
 import { Button } from "react-native-material-ui";
 import MaterialIcon from "react-native-vector-icons/MaterialIcons";
+
+const IMAGE_SCALE_LARGE = 1.15;
+const IMAGE_TRNSLATE_X = 20;
+
 const mapStateToProps = (state, nextOwnProps) => state;
 
 class SignIn extends Component {
@@ -30,8 +32,9 @@ class SignIn extends Component {
       password: "superSecret1@",
       secureTextEntry: true
     };
+    this.imageScale = new Animated.Value(1);
     this.keyboardHeight = new Animated.Value(0);
-    this.imageHeight = new Animated.Value(0);
+    this.imageTranslateX = new Animated.Value(0);
 
     this.emailRef = this.updateRef.bind(this, "email");
     this.passwordRef = this.updateRef.bind(this, "password");
@@ -58,6 +61,14 @@ class SignIn extends Component {
       Animated.timing(this.keyboardHeight, {
         duration: event.duration,
         toValue: -event.endCoordinates.height
+      }),
+      Animated.timing(this.imageScale, {
+        duration: event.duration,
+        toValue: IMAGE_SCALE_LARGE
+      }),
+      Animated.timing(this.imageTranslateX, {
+        duration: event.duration,
+        toValue: IMAGE_TRNSLATE_X
       })
     ]).start();
   };
@@ -65,6 +76,14 @@ class SignIn extends Component {
   keyboardWillHide = event => {
     Animated.parallel([
       Animated.timing(this.keyboardHeight, {
+        duration: event.duration,
+        toValue: 0
+      }),
+      Animated.timing(this.imageScale, {
+        duration: event.duration,
+        toValue: 1
+      }),
+      Animated.timing(this.imageTranslateX, {
         duration: event.duration,
         toValue: 0
       })
@@ -147,17 +166,20 @@ class SignIn extends Component {
   render() {
     const { email, password, secureTextEntry, errors = {} } = this.state;
     return (
-      <View style={styles.root}>
+      <Animated.View style={[styles.root, { marginTop: this.keyboardHeight }]}>
         <Animated.Image
           source={require("../../img/auth_background.jpg")}
           style={[
             styles.backgroundImage,
-            { transform: [{ translateY: this.keyboardHeight }] }
+            {
+              transform: [
+                { scale: this.imageScale },
+                { translateX: this.imageTranslateX }
+              ]
+            }
           ]}
         />
-        <Animated.View
-          style={[styles.container, { marginTop: this.keyboardHeight }]}
-        >
+        <View style={styles.container}>
           <Text style={styles.title}>Sign In</Text>
           <TextField
             ref={this.emailRef}
@@ -201,8 +223,8 @@ class SignIn extends Component {
               onPress={this._onSubmit}
             />
           )}
-        </Animated.View>
-      </View>
+        </View>
+      </Animated.View>
     );
   }
 }
@@ -218,8 +240,6 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     position: "absolute",
-    flex: 1,
-
     width: "100%",
     height: "100%"
   },
