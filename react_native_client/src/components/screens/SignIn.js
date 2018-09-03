@@ -1,6 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { StyleSheet, Text, View, ActivityIndicator, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator,
+  Animated,
+  Image,
+  Keyboard,
+  KeyboardAvoidingView
+} from "react-native";
 import { userActions } from "../../actions";
 import { TextField } from "react-native-material-textfield";
 import { Button } from "react-native-material-ui";
@@ -9,7 +18,7 @@ const mapStateToProps = (state, nextOwnProps) => state;
 
 class SignIn extends Component {
   static navigationOptions = {
-    title: "Please sign in"
+    title: "Authentication"
   };
 
   constructor() {
@@ -18,12 +27,49 @@ class SignIn extends Component {
       // email: "",
       // password: "",
       email: "sunny@gmail.com",
-      password: "", //superSecret1@
+      password: "superSecret1@",
       secureTextEntry: true
     };
+    this.keyboardHeight = new Animated.Value(0);
+    this.imageHeight = new Animated.Value(0);
+
     this.emailRef = this.updateRef.bind(this, "email");
     this.passwordRef = this.updateRef.bind(this, "password");
   }
+
+  componentWillMount() {
+    this.keyboardWillShowSub = Keyboard.addListener(
+      "keyboardWillShow",
+      this.keyboardWillShow
+    );
+    this.keyboardWillHideSub = Keyboard.addListener(
+      "keyboardWillHide",
+      this.keyboardWillHide
+    );
+  }
+
+  componentWillUnmount() {
+    this.keyboardWillShowSub.remove();
+    this.keyboardWillHideSub.remove();
+  }
+
+  keyboardWillShow = event => {
+    Animated.parallel([
+      Animated.timing(this.keyboardHeight, {
+        duration: event.duration,
+        toValue: -event.endCoordinates.height
+      })
+    ]).start();
+  };
+
+  keyboardWillHide = event => {
+    Animated.parallel([
+      Animated.timing(this.keyboardHeight, {
+        duration: event.duration,
+        toValue: 0
+      })
+    ]).start();
+  };
 
   _onSubmitEmail = () => {
     this.password.focus();
@@ -37,7 +83,6 @@ class SignIn extends Component {
           this.setState({ [name]: text });
         }
       });
-    console.log(text);
   };
   _validateInputs = () => {
     let errors = {};
@@ -101,14 +146,18 @@ class SignIn extends Component {
 
   render() {
     const { email, password, secureTextEntry, errors = {} } = this.state;
-    console.log(password);
     return (
       <View style={styles.root}>
-        <Image
+        <Animated.Image
           source={require("../../img/auth_background.jpg")}
-          style={styles.backgroundImage}
+          style={[
+            styles.backgroundImage,
+            { transform: [{ translateY: this.keyboardHeight }] }
+          ]}
         />
-        <View style={styles.container}>
+        <Animated.View
+          style={[styles.container, { marginTop: this.keyboardHeight }]}
+        >
           <Text style={styles.title}>Sign In</Text>
           <TextField
             ref={this.emailRef}
@@ -118,6 +167,7 @@ class SignIn extends Component {
             _onChangeText={this._onChangeText}
             onSubmitEditing={this._onSubmitEmail}
             autoCapitalize="none"
+            autoCorrect={false}
             error={errors.email}
           />
           <TextField
@@ -141,7 +191,7 @@ class SignIn extends Component {
             </Text>
           ) : null}
           {this.props.user.pendingSignIn ? (
-            <ActivityIndicator size="large" />
+            <ActivityIndicator size="small" />
           ) : (
             <Button
               primary
@@ -151,7 +201,7 @@ class SignIn extends Component {
               onPress={this._onSubmit}
             />
           )}
-        </View>
+        </Animated.View>
       </View>
     );
   }
@@ -160,14 +210,20 @@ class SignIn extends Component {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    alignItems: "center",
     justifyContent: "center"
   },
+  foo: {
+    flex: 1
+  },
   backgroundImage: {
+    position: "absolute",
     flex: 1,
-    width: "100%"
+
+    width: "100%",
+    height: "100%"
   },
   container: {
-    position: "absolute",
     width: "90%",
     margin: 16,
     padding: 16,
