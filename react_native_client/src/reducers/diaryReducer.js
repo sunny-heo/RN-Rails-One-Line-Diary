@@ -1,10 +1,10 @@
-import { diaryActions } from "../config/constants";
+import { diaryConstants } from "../config/constants";
 
 const {
   DIARY_INDEX_PENDING,
   DIARY_INDEX_REJECTED,
   DIARY_INDEX_FULFILLED
-} = diaryActions;
+} = diaryConstants;
 
 const initialState = {
   data: null,

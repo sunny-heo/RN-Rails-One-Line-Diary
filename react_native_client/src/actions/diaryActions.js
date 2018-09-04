@@ -3,13 +3,13 @@ import { diaryService } from "../_requests";
 import { AsyncStorage } from "react-native";
 
 const {
-  // DIARY_INDEX_PENDING,
+  DIARY_INDEX_PENDING,
   DIARY_INDEX_REJECTED,
   DIARY_INDEX_FULFILLED
 } = diaryConstants;
 
 export default {
-  diaryIndex: () => async dispatch => {
+  index: () => async dispatch => {
     dispatch({ type: DIARY_INDEX_PENDING });
 
     try {
