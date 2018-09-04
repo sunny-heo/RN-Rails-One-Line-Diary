@@ -1,2 +1,3 @@
 import userActions from "./userActions";
-export { userActions };
+import diaryActions from "./diaryActions";
+export { userActions, diaryActions };

@@ -7,22 +7,36 @@ import {
   StyleSheet,
   View
 } from "react-native";
-import { userActions } from "../../actions";
+import { userActions, diaryActions } from "../../actions";
 
 const mapStateToProps = (state, nextOwnProps) => state;
 
 class AuthLoading extends React.Component {
   async componentDidMount() {
     try {
-      const { currentUser } = userActions;
-      await this.props.dispatch(currentUser());
+      // await this.props.dispatch(userActions.currentUser());
+      await this.loadCurrentUser();
 
       const { user, navigation } = this.props;
+
+      if (user.signedIn) {
+        this.loadUserDiary();
+      }
+
       navigation.navigate(user.signedIn ? "App" : "Auth");
     } catch (error) {
       console.log(error);
     }
   }
+
+  async loadCurrentUser() {
+    await this.props.dispatch(userActions.currentUser());
+  }
+
+  loadUserDiary() {
+    this.props.dispatch(diaryActions.index());
+  }
+
   render() {
     return (
       <View style={styles.container}>
