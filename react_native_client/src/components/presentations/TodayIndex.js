@@ -41,7 +41,11 @@ const TodayIndex = enhance(({ diary, navigation }) => {
         }}
         keyExtractor={(item, index) => index.toString()}
       />
-      <ActionButton />
+      <ActionButton
+        onPress={() => {
+          navigation.navigate("DiaryNew");
+        }}
+      />
     </View>
   );
 });

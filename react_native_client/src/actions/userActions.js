@@ -40,7 +40,6 @@ export default {
       //   : dispatch({ type: SIGNIN_USER_FULFILLED, payload: user });
 
       if (user.error) {
-        console.log("error!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         dispatch({ type: SIGNIN_USER_REJECTED, payload: user.error });
       } else {
         dispatch({ type: SIGNIN_USER_FULFILLED, payload: user });
@@ -56,8 +55,8 @@ export default {
     try {
       await userService.signOut();
       dispatch({ type: SIGNOUT_USER_FULFILLED, payload: {} });
-      // await AsyncStorage.removeItem("userData");
-      await AsyncStorage.clear();
+      await AsyncStorage.removeItem("userData");
+      // await AsyncStorage.clear();
     } catch (error) {
       dispatch({ type: SIGNOUT_USER_REJECTED, payload: error });
     }

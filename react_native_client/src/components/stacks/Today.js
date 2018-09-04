@@ -1,16 +1,15 @@
 import { createStackNavigator } from "react-navigation";
-import {
-  TodayIndex,
-  TodayDiary,
-  PeopleIndex,
-  DiariesIndex,
-  SettingsIndex
-} from "../presentations";
+import { TodayIndex, TodayDiary, DiaryNew } from "../presentations";
 
 const Today = createStackNavigator(
-  { TodayIndex, TodayDiary },
+  { TodayIndex, TodayDiary, DiaryNew },
   {
-    initialRouteName: "TodayIndex"
+    initialRouteName: "TodayIndex",
+    mode: "modal",
+    headerMode: "none",
+    navigationOptions: ({ navigation }) => ({
+      header: null
+    })
   }
 );
 

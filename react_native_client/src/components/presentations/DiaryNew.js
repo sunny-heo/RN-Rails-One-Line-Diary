@@ -1,54 +1,69 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
+import { compose } from "recompose";
 import { connect } from "react-redux";
-import { View, FlatList, Text, StyleSheet } from "react-native";
+
 import {
-  Subheader,
-  ListItem,
-  Divider,
-  ActionButton
-} from "react-native-material-ui";
-import { TextField } from "react-native-material-textfield";
-import { differenceInDays } from "date-fns";
+  View,
+  FlatList,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Picker
+} from "react-native";
 import { withNavigation } from "react-navigation";
-import { diaryActions } from "../../actions";
+import DateTimePicker from "react-native-modal-datetime-picker";
 
 const mapStateToProps = (state, nextOwnProps) => state;
 
-class TodayIndex extends Component {
-  static navigationOptions = {
-    header: null
+// const enhance = compose(
+//   connect(mapStateToProps),
+//   withNavigation
+// );
+
+class DiaryNew extends Component {
+  state = {
+    isDateTimePickerVisible: false,
+    selectedDate: ""
+  };
+
+  _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+
+  _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+  _handleDatePicked = date => {
+    console.log("A date has been picked: ", date);
+    this._hideDateTimePicker();
   };
 
   render() {
-    const { diary } = this.props;
     return (
       <View style={styles.root}>
-        <FlatList
-          data={diary.data}
-          renderItem={({ item }) => {
-            return (
-              <ListItem
-                divider
-                rightElement={
-                  <Text>
-                    {`Disclose in ${differenceInDays(
-                      item.disclose_date,
-                      new Date()
-                    )} days`}
-                  </Text>
-                }
-                centerElement={{
-                  primaryText: item.name
-                }}
-                onPress={() => {
-                  this.props.navigation.navigate("TodayDiary");
-                }}
-              />
-            );
-          }}
-          keyExtractor={(item, index) => index.toString()}
+        <TouchableOpacity onPress={this._showDateTimePicker}>
+          <View style={styles.button}>
+            <Text>Show DatePicker</Text>
+          </View>
+        </TouchableOpacity>
+
+        <Text style={styles.text}>{this.state.selectedDate}</Text>
+
+        <DateTimePicker
+          isVisible={this.state.isDateTimePickerVisible}
+          onConfirm={this._handleDatePicked}
+          onCancel={this._hideDateTimePicker}
+          mode={"time"}
         />
-        <ActionButton />
+        <Picker
+          selectedValue={this.state.language}
+          style={{ height: 50, width: 100 }}
+          onValueChange={(itemValue, itemIndex) => {
+            console.log(itemValue);
+            this.setState({ language: itemValue });
+          }}
+        >
+          <Picker.Item label="Java" value="java" />
+          <Picker.Item label="JavaScript" value="js" />
+        </Picker>
       </View>
     );
   }
@@ -64,4 +79,5 @@ const styles = StyleSheet.create({
     marginRight: 16
   }
 });
-export default connect(mapStateToProps)(withNavigation(TodayIndex));
+
+export default connect(mapStateToProps)(DiaryNew);

@@ -129,7 +129,7 @@ class SignIn extends Component {
         await this.props.dispatch(signInUser({ email, password }));
 
         const { user, navigation } = this.props;
-        if (user.signedIn) navigation.navigate("App");
+        if (user.signedIn) navigation.navigate("AuthLoading");
       }
     } catch (error) {
       console.log(error);
