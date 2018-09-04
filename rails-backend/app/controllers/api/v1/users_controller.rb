@@ -1,13 +1,13 @@
 class Api::V1::UsersController < Api::ApplicationController  
-  
+
   def create
     @user = User.new user_params
     @user.email.downcase!
     if @user.save
       session[:user_id] = @user.id
-      render(json: { id: @user.id})
+      render json: current_user
     else
-      render(json: { error: @user.errors })
+      render json: { error: @user.errors }
     end
   end
 
