@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import { connect } from "react-redux";
 import { View, FlatList, Text, StyleSheet } from "react-native";
 import {
   Subheader,
@@ -14,6 +15,9 @@ class TodayIndex extends Component {
   static navigationOptions = {
     header: null
   };
+
+  componentDidMount = () => {};
+
   sampleDiary = Array(20)
     .fill()
     .map((e, i) => {
@@ -60,12 +64,8 @@ const styles = StyleSheet.create({
     backgroundColor: "rgb(255, 255,255)"
   },
   textContainer: {
-    // width: "100%",
-    // alignItems: "center",
-    // justifyContent: "center",
     marginLeft: 16,
     marginRight: 16
-    // marginBottom: 5
   }
 });
-export default withNavigation(TodayIndex);
+export default connect(mapStateToProps)(withNavigation(TodayIndex));
