@@ -2,6 +2,7 @@ import { Platform } from "react-native";
 import axios from "axios";
 
 const domain = Platform.OS === "ios" ? "localhost" : "10.0.2.2";
+
 class AxiosService {
   constructor() {
     let service = axios.create({
