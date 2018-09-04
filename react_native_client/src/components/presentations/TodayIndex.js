@@ -11,6 +11,8 @@ import { TextField } from "react-native-material-textfield";
 import { differenceInDays } from "date-fns";
 import { withNavigation } from "react-navigation";
 
+const mapStateToProps = (state, nextOwnProps) => state;
+
 class TodayIndex extends Component {
   static navigationOptions = {
     header: null

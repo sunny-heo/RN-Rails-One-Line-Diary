@@ -1,22 +1,22 @@
-import { dairyConstants } from "../config/constants";
-import { diaryService } from "../_requests";
-import { AsyncStorage } from "react-native";
+// import { dairyConstants } from "../config/constants";
+// import { diaryService } from "../_requests";
+// import { AsyncStorage } from "react-native";
 
-const {
-  DIARY_INDEX_PENDING,
-  DIARY_INDEX_REJECTED,
-  DIARY_INDEX_FULFILLED
-} = dairyConstants;
+// const {
+//   // DIARY_INDEX_PENDING,
+//   DIARY_INDEX_REJECTED,
+//   DIARY_INDEX_FULFILLED
+// } = dairyConstants;
 
-export default {
-  diaryIndex: () => async dispatch => {
-    dispatch({ type: DIARY_INDEX_PENDING });
+// export default {
+//   diaryIndex: () => async dispatch => {
+//     // dispatch({ type: DIARY_INDEX_PENDING });
 
-    try {
-      const diaries = await diaryService.diaryIndex();
-      dispatch({ type: DIARY_INDEX_FULFILLED, payload: diaries });
-    } catch (error) {
-      dispatch({ type: DIARY_INDEX_REJECTED, payload: error });
-    }
-  }
-};
+//     try {
+//       const diaries = await diaryService.diaryIndex();
+//       dispatch({ type: DIARY_INDEX_FULFILLED, payload: diaries });
+//     } catch (error) {
+//       dispatch({ type: DIARY_INDEX_REJECTED, payload: error });
+//     }
+//   }
+// };

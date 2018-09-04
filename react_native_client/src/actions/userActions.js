@@ -40,6 +40,7 @@ export default {
       //   : dispatch({ type: SIGNIN_USER_FULFILLED, payload: user });
 
       if (user.error) {
+        console.log("error!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         dispatch({ type: SIGNIN_USER_REJECTED, payload: user.error });
       } else {
         dispatch({ type: SIGNIN_USER_FULFILLED, payload: user });

@@ -1,9 +1,11 @@
+import { Platform } from "react-native";
 import axios from "axios";
 
+const domain = Platform.OS === "ios" ? "localhost" : "10.0.2.2";
 class AxiosService {
   constructor() {
     let service = axios.create({
-      baseURL: "http://localhost:3000/api/v1",
+      baseURL: `http://${domain}:3000/api/v1`,
       // timeout: 3000,
       withCredentials: true,
       headers: {

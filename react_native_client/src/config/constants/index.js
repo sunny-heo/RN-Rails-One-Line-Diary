@@ -1,2 +1,3 @@
 import userConstants from "./userConstants";
-export { userConstants };
+import diaryConstants from "./diaryConstants";
+export { userConstants, diaryConstants };
