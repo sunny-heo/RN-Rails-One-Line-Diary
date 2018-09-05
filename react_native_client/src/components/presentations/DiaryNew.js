@@ -18,10 +18,9 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 
 import MultiSelect from "react-native-multiple-select";
 import RF from "react-native-responsive-fontsize";
-import {diaryActions} from "../../actions"
+import { diaryActions } from "../../actions";
 
 const mapStateToProps = (state, nextOwnProps) => state;
-
 
 class DiaryNew extends Component {
   constructor() {
@@ -29,10 +28,8 @@ class DiaryNew extends Component {
     this.state = {
       name: "",
       isDateTimePickerVisible: false,
-      // selectedDate: format(new Date(), "MMM Do, YYYY"),
-      selectedDate: "Select disclose date",
-      selectedItems: [],
-      autoFocusInput: false
+      discloseDate: "",
+      selectedItems: []
     };
 
     this.nameRef = this._updateRef.bind(this, "name");
@@ -79,20 +76,21 @@ class DiaryNew extends Component {
   }
 
   componentDidMount() {
-    this.name.focus();
+    console.log("componentDidMount()");
+    // this.name.focus();
   }
 
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
 
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
-  _handleDatePicked = date => {
-    // this.setState({ selectedDate: format(date, "MMM Do, YYYY") });
-    this.setState({ selectedDate: date });
+  _handleDatePicked = discloseDate => {
+    this.setState({ discloseDate });
     this._hideDateTimePicker();
   };
 
   _onChangeText = text => {
+    console.log();
     ["name"]
       .map(name => ({ name, ref: this[name] }))
       .forEach(({ name, ref }) => {
@@ -102,7 +100,9 @@ class DiaryNew extends Component {
       });
   };
 
-  _onSubmitDaiaryName = () => {};
+  _onSubmitDaiaryName = () => {
+    this._showDateTimePicker();
+  };
 
   _updateRef(name, ref) {
     this[name] = ref;
@@ -114,8 +114,10 @@ class DiaryNew extends Component {
 
   _onSubmit = () => {
     console.log(this.props);
-    const {name, discloseDate: disclose_date} = this.state;
-    await this.props.dispatch(diaryActions.create({ name, disclose_date }));
+    const { name, discloseDate } = this.state;
+    const disclose_date = discloseDate.toString();
+
+    // this.props.dispatch(diaryActions.create({ name, disclose_date }));
   };
 
   render() {
@@ -126,28 +128,18 @@ class DiaryNew extends Component {
         <View style={{ marginBottom: 16 }}>
           <TextField
             ref={this.nameRef}
-            // ref={component => {
-            //   this.nameRef = component;
-            // }}
             label="Name"
             value={name}
-            _onChangeText={this._onChangeText}
+            onChangeText={this._onChangeText}
             onSubmitEditing={this._onSubmitDaiaryName}
             autoCapitalize="none"
             autoCorrect={false}
             // error={errors.email}
           />
         </View>
-        {/* <View
-          style={{ borderWidth: StyleSheet.hairlineWidth, marginBottom: 16 }}
-        > */}
         <MultiSelect
           items={this.items}
           uniqueKey="id"
-          // ref={component => {
-          //   console.log(component);
-          //   this.multiSelect = component;
-          // }}
           ref={this.friendsRef}
           _onSelectedItemsChange={this.onSelectedItemsChange}
           selectedItems={this.state.selectedItems}
@@ -177,10 +169,9 @@ class DiaryNew extends Component {
           <TouchableOpacity onPress={this._showDateTimePicker}>
             <View style={styles.button}>
               <Text>
-                {/* {format(this.state.selectedDate, "MMM Do, YYYY")} */}
-                {this.state.selectedDate instanceof Date
+                {this.state.discloseDate instanceof Date
                   ? `Disclose on ${format(
-                      this.state.selectedDate,
+                      this.state.discloseDate,
                       "MMM Do, YYYY"
                     )}`
                   : "Select disclose date"}
@@ -190,6 +181,7 @@ class DiaryNew extends Component {
         </View>
 
         <Button primary raised text="Create" onPress={this._onSubmit} />
+
         <DateTimePicker
           isVisible={this.state.isDateTimePickerVisible}
           onConfirm={this._handleDatePicked}
