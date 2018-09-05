@@ -23,11 +23,11 @@ export default {
       dispatch({ type: DIARY_INDEX_REJECTED, payload: error });
     }
   },
-  create: () => async dispatch => {
+  create: diary => async dispatch => {
     dispatch({ type: DIARY_CREATE_PENDING });
 
     try {
-      const newDiary = await diaryService.create();
+      const newDiary = await diaryService.create(diary);
       dispatch({ type: DIARY_CREATE_FULFILLED, payload: newDiary });
     } catch (error) {
       dispatch({ type: DIARY_CREATE_REJECTED, payload: error });

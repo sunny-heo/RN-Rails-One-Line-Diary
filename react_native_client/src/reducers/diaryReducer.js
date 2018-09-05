@@ -3,7 +3,11 @@ import { diaryConstants } from "../config/constants";
 const {
   DIARY_INDEX_PENDING,
   DIARY_INDEX_REJECTED,
-  DIARY_INDEX_FULFILLED
+  DIARY_INDEX_FULFILLED,
+
+  DIARY_CREATE_PENDING,
+  DIARY_CREATE_REJECTED,
+  DIARY_CREATE_FULFILLED
 } = diaryConstants;
 
 const initialState = {
@@ -11,7 +15,13 @@ const initialState = {
   pendingIndex: false,
   fulfilledIndex: false,
   rejectedIndex: false,
-  indexErrors: {}
+  indexErrors: {},
+
+  createdData: null,
+  pendingCreate: false,
+  fulfilledCreate: false,
+  rejectedCreate: false,
+  createErrors: {}
 };
 
 export default (state = initialState, action) => {
@@ -36,6 +46,30 @@ export default (state = initialState, action) => {
         fulfilledIndex: true,
         indexErrors: {},
         data: action.payload
+      };
+    }
+
+    case DIARY_CREATE_PENDING: {
+      return { ...state, pendingCreate: true };
+    }
+
+    case DIARY_CREATE_REJECTED: {
+      return {
+        ...state,
+        pendingCreate: false,
+        rejectedCreate: true,
+        createErrors: action.payload
+      };
+    }
+
+    case DIARY_CREATE_FULFILLED: {
+      return {
+        ...state,
+        pendingCreate: false,
+        fulfilledCreate: true,
+        createErrors: {},
+        data: state.data.concat(action.payload),
+        createdData: action.payload
       };
     }
 

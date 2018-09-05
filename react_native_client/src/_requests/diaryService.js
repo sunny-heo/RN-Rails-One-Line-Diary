@@ -11,9 +11,10 @@ export default {
       console.log("Error in diaryAll request => ", error);
     }
   },
-  async create() {
+  async create(diary) {
     try {
-      const diaries = await service.get(`/${DIARIES}`);
+      console.log(diary);
+      const diaries = await service.post(`/${DIARIES}`, diary);
       return diaries;
     } catch (error) {
       console.log("Error in diaryAll request => ", error);

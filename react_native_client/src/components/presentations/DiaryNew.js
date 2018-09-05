@@ -117,7 +117,7 @@ class DiaryNew extends Component {
     const { name, discloseDate } = this.state;
     const disclose_date = discloseDate.toString();
 
-    // this.props.dispatch(diaryActions.create({ name, disclose_date }));
+    this.props.dispatch(diaryActions.create({ name, disclose_date }));
   };
 
   render() {
