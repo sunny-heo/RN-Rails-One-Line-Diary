@@ -65,6 +65,8 @@ export default {
     dispatch({ type: CURRENT_USER_PENDING });
     try {
       const user = JSON.parse(await AsyncStorage.getItem("userData"));
+      console.log("user");
+      console.log(user);
       user
         ? dispatch({ type: CURRENT_USER_FULFILLED, payload: user })
         : dispatch({ type: CURRENT_USER_REJECTED, payload: null });

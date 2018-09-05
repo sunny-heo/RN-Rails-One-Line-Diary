@@ -1,12 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import {
-  ActivityIndicator,
-  AsyncStorage,
-  StatusBar,
-  StyleSheet,
-  View
-} from "react-native";
+import { ActivityIndicator, StatusBar, StyleSheet, View } from "react-native";
 import { userActions, diaryActions } from "../../actions";
 
 const mapStateToProps = (state, nextOwnProps) => state;
@@ -14,7 +8,6 @@ const mapStateToProps = (state, nextOwnProps) => state;
 class AuthLoading extends React.Component {
   async componentDidMount() {
     try {
-      // await this.props.dispatch(userActions.currentUser());
       await this.loadCurrentUser();
 
       const { user, navigation } = this.props;
