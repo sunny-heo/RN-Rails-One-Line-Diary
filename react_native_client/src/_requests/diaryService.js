@@ -19,5 +19,14 @@ export default {
     } catch (error) {
       console.log("Error in diaryAll request => ", error);
     }
+  },
+  async destroy(diaryId) {
+    try {
+      console.log(diaryId);
+      const data = await service.delete(`/${DIARIES}/${diaryId}`);
+      return data;
+    } catch (error) {
+      console.log("Error in diaryAll request => ", error);
+    }
   }
 };

@@ -27,7 +27,7 @@ class Api::V1::DiariesController < Api::ApplicationController
 
   def destroy
     @diary.destroy
-    render json: { message: "'#{diary.name}' has been removed" }
+    render json: { message: "'#{@diary.name}' has been removed" }
   end
 
 
