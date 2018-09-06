@@ -124,7 +124,7 @@ class DiaryNew extends Component {
         errors[input] = `Disclose date should be later than ${format(
           new Date(),
           "MMM Do, YYYY"
-        )}`;
+        )} (Today)`;
       }
     });
 
@@ -135,9 +135,9 @@ class DiaryNew extends Component {
     try {
       await this._validateInputs();
       const { name, discloseDate, errors } = this.state;
-      const disclose_date = discloseDate.toString();
 
       if (!Object.keys(errors).length) {
+        const disclose_date = discloseDate.toString();
         await this.props.dispatch(diaryActions.create({ name, disclose_date }));
         const { navigation, diary } = this.props;
         if (diary.fulfilledCreate) navigation.navigate("Home");
@@ -188,31 +188,24 @@ class DiaryNew extends Component {
           />
         </View>
         <View
-          style={{
-            paddingBottom: 8,
-            borderBottomWidth: StyleSheet.hairlineWidth
-          }}
+          style={[
+            styles.discloseDateContainer,
+            errors.discloseDate
+              ? { borderBottomColor: COLOR.red700, borderBottomWidth: 2 }
+              : null
+          ]}
         >
           <TouchableOpacity onPress={this._showDateTimePicker}>
-            <View style={styles.button}>
-              <Text>
-                {discloseDate
-                  ? `Disclose on ${format(discloseDate, "MMM Do, YYYY")}`
-                  : "Select disclose date"}
-              </Text>
-            </View>
+            <Text style={errors.discloseDate ? { color: COLOR.red700 } : null}>
+              {discloseDate
+                ? `Disclose on ${format(discloseDate, "MMM Do, YYYY")}`
+                : "Select disclose date"}
+            </Text>
           </TouchableOpacity>
         </View>
-        <View
-          style={{
-            marginTop: 4,
-            marginBottom: 32
-          }}
-        >
+        <View style={styles.discloseDateErrorContainer}>
           {errors.discloseDate ? (
-            <Text style={{ color: COLOR.red700, fontSize: RF(1.8) }}>
-              {errors.discloseDate}
-            </Text>
+            <Text style={styles.errorText}>{errors.discloseDate}</Text>
           ) : null}
         </View>
 
@@ -242,6 +235,18 @@ const styles = StyleSheet.create({
   textContainer: {
     marginLeft: 16,
     marginRight: 16
+  },
+  discloseDateContainer: {
+    paddingBottom: 8,
+    borderBottomWidth: StyleSheet.hairlineWidth
+  },
+  discloseDateErrorContainer: {
+    marginTop: 4,
+    marginBottom: 32
+  },
+  errorText: {
+    color: COLOR.red700,
+    fontSize: RF(1.8)
   }
 });
 
