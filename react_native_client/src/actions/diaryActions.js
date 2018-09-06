@@ -27,6 +27,7 @@ export default {
       dispatch({ type: DIARY_INDEX_REJECTED, payload: error });
     }
   },
+
   create: diary => async dispatch => {
     dispatch({ type: DIARY_CREATE_PENDING });
 
@@ -37,6 +38,7 @@ export default {
       dispatch({ type: DIARY_CREATE_REJECTED, payload: error });
     }
   },
+
   destroy: diaryId => async dispatch => {
     dispatch({ type: DIARY_DESTROY_PENDING });
 

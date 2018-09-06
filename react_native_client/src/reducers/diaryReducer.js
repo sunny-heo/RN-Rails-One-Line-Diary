@@ -7,7 +7,11 @@ const {
 
   DIARY_CREATE_PENDING,
   DIARY_CREATE_REJECTED,
-  DIARY_CREATE_FULFILLED
+  DIARY_CREATE_FULFILLED,
+
+  DIARY_DESTROY_PENDING,
+  DIARY_DESTROY_REJECTED,
+  DIARY_DESTROY_FULFILLED
 } = diaryConstants;
 
 const initialState = {
@@ -74,8 +78,32 @@ export default (state = initialState, action) => {
       };
     }
 
+    case DIARY_DESTROY_PENDING: {
+      return { ...state, pendingDestroy: true };
+    }
+
+    case DIARY_DESTROY_REJECTED: {
+      return {
+        ...state,
+        pendingDestroy: false,
+        rejectedDestroy: true,
+        destroyErrors: action.payload
+      };
+    }
+
+    case DIARY_DESTROY_FULFILLED: {
+      const destroyedDiary = action.payload;
+      return {
+        ...state,
+        pendingDestroy: false,
+        fulfilledDESTROY: true,
+        destroyErrors: {},
+        data: state.data.filter(diary => diary.id !== destroyedDiary.id),
+        destroyedData
+      };
+    }
+
     default:
       return state;
   }
 };
-
