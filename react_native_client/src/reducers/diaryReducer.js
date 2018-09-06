@@ -63,13 +63,14 @@ export default (state = initialState, action) => {
     }
 
     case DIARY_CREATE_FULFILLED: {
+      const newDiary = action.payload;
       return {
         ...state,
         pendingCreate: false,
         fulfilledCreate: true,
         createErrors: {},
-        data: state.data.concat(action.payload),
-        createdData: action.payload
+        data: [newDiary].concat(state.data),
+        createdData: newDiary
       };
     }
 
@@ -77,3 +78,4 @@ export default (state = initialState, action) => {
       return state;
   }
 };
+

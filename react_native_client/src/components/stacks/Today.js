@@ -5,8 +5,8 @@ const Today = createStackNavigator(
   { TodayIndex, TodayDiary, DiaryNew },
   {
     initialRouteName: "TodayIndex",
-    mode: "modal",
-    headerMode: "none",
+    // mode: "modal",
+    // headerMode: "none",
     navigationOptions: ({ navigation }) => ({
       header: null
     })
