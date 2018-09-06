@@ -25,7 +25,13 @@ const initialState = {
   pendingCreate: false,
   fulfilledCreate: false,
   rejectedCreate: false,
-  createErrors: {}
+  createErrors: {},
+
+  destroyedData: null,
+  pendingDestroy: false,
+  fulfilledDestroy: false,
+  rejectedDestroy: false,
+  destroyErrors: {}
 };
 
 export default (state = initialState, action) => {
@@ -99,7 +105,7 @@ export default (state = initialState, action) => {
         fulfilledDESTROY: true,
         destroyErrors: {},
         data: state.data.filter(diary => diary.id !== destroyedDiary.id),
-        destroyedData
+        destroyedData: destroyedDiary
       };
     }
 
