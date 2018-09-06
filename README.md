@@ -42,7 +42,7 @@ $ react-native start
 Assuming that you have Xcode installed, run the following commands below in new Terminal to start iOS application.
 
 ```
-$ react-native run-android
+$ react-native run-ios
 ```
 
 ### Run android application
