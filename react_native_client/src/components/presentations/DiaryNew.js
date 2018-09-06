@@ -76,7 +76,7 @@ class DiaryNew extends Component {
   }
 
   componentDidMount() {
-    console.log("componentDidMount()");
+    // console.log("componentDidMount()");
     // this.name.focus();
   }
 
@@ -112,19 +112,21 @@ class DiaryNew extends Component {
     this.setState({ selectedItems });
   };
 
-  _onSubmit = () => {
-    console.log(this.props);
+  _onSubmit = async () => {
+    // console.log(this.props);
     const { name, discloseDate } = this.state;
     const disclose_date = discloseDate.toString();
 
-    this.props.dispatch(diaryActions.create({ name, disclose_date }));
+    await this.props.dispatch(diaryActions.create({ name, disclose_date }));
+    const { navigation, diary } = this.props;
+    navigation.navigate(diary.fulfilledCreate ? "TodayIndex" : "DiaryNew");
   };
 
   render() {
     const { name } = this.state;
     return (
       <View style={styles.root}>
-        <Text style={styles.titleText}>Create New Diary</Text>
+        {/* <Text style={styles.titleText}>Create New Diary</Text>
         <View style={{ marginBottom: 16 }}>
           <TextField
             ref={this.nameRef}
@@ -136,12 +138,12 @@ class DiaryNew extends Component {
             autoCorrect={false}
             // error={errors.email}
           />
-        </View>
+        </View> */}
         <MultiSelect
           items={this.items}
           uniqueKey="id"
           ref={this.friendsRef}
-          _onSelectedItemsChange={this.onSelectedItemsChange}
+          onSelectedItemsChange={this._onSelectedItemsChange}
           selectedItems={this.state.selectedItems}
           selectText="Select friends to share"
           searchInputPlaceholderText="Search Friends to share this diary"
@@ -157,8 +159,8 @@ class DiaryNew extends Component {
           submitButtonColor={COLOR.blue500}
           submitButtonText="Done"
           style={{ backgroundColor: "red" }}
+          onPress={console.log("press")}
         />
-        {/* </View> */}
         <View
           style={{
             paddingBottom: 8,
