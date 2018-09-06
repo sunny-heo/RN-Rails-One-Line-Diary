@@ -9,7 +9,11 @@ const {
 
   DIARY_CREATE_PENDING,
   DIARY_CREATE_REJECTED,
-  DIARY_CREATE_FULFILLED
+  DIARY_CREATE_FULFILLED,
+
+  DIARY_DESTROY_PENDING,
+  DIARY_DESTROY_REJECTED,
+  DIARY_DESTROY_FULFILLED
 } = diaryConstants;
 
 export default {
@@ -31,6 +35,16 @@ export default {
       dispatch({ type: DIARY_CREATE_FULFILLED, payload: newDiary });
     } catch (error) {
       dispatch({ type: DIARY_CREATE_REJECTED, payload: error });
+    }
+  },
+  destroy: diaryId => async dispatch => {
+    dispatch({ type: DIARY_DESTROY_PENDING });
+
+    try {
+      const destroyedDiary = await diaryService.destroy(diaryId);
+      dispatch({ type: DIARY_DESTROY_FULFILLED, payload: destroyedDiary });
+    } catch (error) {
+      dispatch({ type: DIARY_DESTROY_REJECTED, payload: error });
     }
   }
 };
