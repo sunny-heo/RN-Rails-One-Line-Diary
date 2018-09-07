@@ -8,7 +8,7 @@ export default {
       const diaries = await service.get(`/${DIARIES}`);
       return diaries;
     } catch (error) {
-      console.log("Error in diaryAll request => ", error);
+      console.log("Error in diary index request => ", error);
     }
   },
   async create(diary) {
@@ -17,7 +17,7 @@ export default {
       const diaries = await service.post(`/${DIARIES}`, diary);
       return diaries;
     } catch (error) {
-      console.log("Error in diaryAll request => ", error);
+      console.log("Error in diary create request => ", error);
     }
   },
   async update(diary) {
@@ -26,7 +26,7 @@ export default {
       const updatedDiary = await service.patch(`/${DIARIES}/${id}`, body);
       return updatedDiary;
     } catch (error) {
-      console.log("Error in diaryAll request => ", error);
+      console.log("Error in diary update request => ", error);
     }
   },
   async destroy(diaryId) {
@@ -34,7 +34,7 @@ export default {
       const data = await service.delete(`/${DIARIES}/${diaryId}`);
       return data;
     } catch (error) {
-      console.log("Error in diaryAll request => ", error);
+      console.log("Error in diary destory request => ", error);
     }
   }
 };
