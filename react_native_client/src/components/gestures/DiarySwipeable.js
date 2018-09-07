@@ -32,7 +32,7 @@ class DiarySwipeable extends Component {
     );
   };
   _handleOnEdit = () => {
-    alert("eit");
+    alert("Edit");
   };
 
   renderLeftActions = (progress, dragX) => {

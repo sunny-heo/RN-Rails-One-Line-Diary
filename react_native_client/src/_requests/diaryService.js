@@ -20,6 +20,15 @@ export default {
       console.log("Error in diaryAll request => ", error);
     }
   },
+  async update(diary) {
+    const { id, ...body } = diary;
+    try {
+      const updatedDiary = await service.patch(`/${DIARIES}/${id}`, body);
+      return updatedDiary;
+    } catch (error) {
+      console.log("Error in diaryAll request => ", error);
+    }
+  },
   async destroy(diaryId) {
     try {
       const data = await service.delete(`/${DIARIES}/${diaryId}`);
