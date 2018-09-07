@@ -43,6 +43,17 @@ export default {
     }
   },
 
+  update: diary => async dispatch => {
+    dispatch({ type: DIARY_UPDATE_PENDING });
+
+    try {
+      const updatedDiary = await diaryService.update(diary);
+      dispatch({ type: DIARY_UPDATE_FULFILLED, payload: updatedDiary });
+    } catch (error) {
+      dispatch({ type: DIARY_UPDATE_REJECTED, payload: error });
+    }
+  },
+
   destroy: diaryId => async dispatch => {
     dispatch({ type: DIARY_DESTROY_PENDING });
 
