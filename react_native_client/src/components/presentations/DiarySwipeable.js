@@ -1,17 +1,40 @@
 import React, { Component } from "react";
-import { Animated, StyleSheet, Text, View } from "react-native";
-
+import { Alert, Animated, Text, View, StyleSheet } from "react-native";
 import { RectButton, Swipeable } from "react-native-gesture-handler";
-// import { Icon } from "react-native-material-ui";
-// import Icon from "react-natvie-vector-icons/";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
-const icons = {
-  Delete: "delete-forever",
-  Edit: "edit"
+import { diaryActions } from "../../actions";
+
+const actionItems = {
+  Delete: { icon: "delete-forever", handler: "_handleOnDelete" },
+  Edit: { icon: "edit", handler: "_handleOnEdit" }
 };
 
 class DiarySwipeable extends Component {
+  _handleOnDelete = () => {
+    const { diary, dispatch } = this.props;
+    this.close();
+    Alert.alert(
+      "Delete",
+      `Do you want to delete ${diary.name}?`,
+      [
+        {
+          text: "Yes",
+          onPress: () => dispatch(diaryActions.destroy(diary.id))
+        },
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        }
+      ],
+      { cancelable: false }
+    );
+  };
+  _handleOnEdit = () => {
+    alert("eit");
+  };
+
   renderLeftActions = (progress, dragX) => {
     const trans = dragX.interpolate({
       inputRange: [0, 50, 100, 101],
@@ -37,17 +60,14 @@ class DiarySwipeable extends Component {
       inputRange: [0, 1],
       outputRange: [x, 0]
     });
-    const pressHandler = () => {
-      this.close();
-      alert(text);
-    };
+    const { icon, handler } = actionItems[text];
     return (
       <Animated.View style={{ flex: 1, transform: [{ translateX: trans }] }}>
         <RectButton
           style={[styles.rightAction, { backgroundColor: color }]}
-          onPress={pressHandler}
+          onPress={this[handler]}
         >
-          <Icon name={icons[text]} size={35} style={styles.actionIcon} />
+          <Icon name={icon} size={35} style={styles.actionIcon} />
           <Text style={styles.actionText}>{text}</Text>
         </RectButton>
       </Animated.View>

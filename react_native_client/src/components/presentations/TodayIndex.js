@@ -34,27 +34,8 @@ class TodayIndex extends Component {
     super();
   }
 
-  handleOnDelete = diary => {
-    Alert.alert(
-      "Delete",
-      `Do you want to delete ${diary.name}?`,
-      [
-        {
-          text: "Yes",
-          onPress: () => console.log("Ask me later pressed")
-        },
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        }
-      ],
-      { cancelable: false }
-    );
-  };
-
   render() {
-    const { diary, navigation } = this.props;
+    const { diary, navigation, dispatch } = this.props;
 
     return (
       <View style={styles.root}>
@@ -62,7 +43,11 @@ class TodayIndex extends Component {
           data={diary.data}
           renderItem={({ item }) => {
             return (
-              <DiarySwipeable>
+              <DiarySwipeable
+                diary={item}
+                navigation={navigation}
+                dispatch={dispatch}
+              >
                 <Row item={item} navigation={navigation} />
               </DiarySwipeable>
             );
