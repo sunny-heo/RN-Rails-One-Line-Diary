@@ -1,64 +1,94 @@
-import React from "react";
+import React, { Component } from "react";
 import { compose } from "recompose";
 import { connect } from "react-redux";
-import { View, FlatList, Text, StyleSheet } from "react-native";
-import { ListItem, ActionButton } from "react-native-material-ui";
+import { View, Text, Alert, StyleSheet } from "react-native";
+import { ListItem, ActionButton, Icon } from "react-native-material-ui";
+import DiarySwipeable from "./DiarySwipeable";
 import { differenceInDays } from "date-fns";
 import { withNavigation } from "react-navigation";
+import { FlatList } from "react-native-gesture-handler";
 
 const mapStateToProps = (state, nextOwnProps) => state;
 
-const enhance = compose(
-  connect(mapStateToProps),
-  withNavigation
+const Row = ({ item, navigation }) => (
+  <ListItem
+    divider
+    rightElement={
+      <Text style={styles.rightElementText}>
+        {`Disclose in ${differenceInDays(item.disclose_date, new Date())} days`}
+      </Text>
+    }
+    centerElement={{
+      primaryText: item.name,
+      secondaryText: "with [friends' name]",
+      tertiaryText: "tertiary"
+    }}
+    onPress={() => {
+      navigation.navigate("TodayDiary");
+    }}
+  />
 );
 
-const TodayIndex = enhance(({ diary, navigation }) => {
-  return (
-    <View style={styles.root}>
-      <FlatList
-        data={diary.data}
-        renderItem={({ item }) => {
-          return (
-            <ListItem
-              divider
-              rightElement={
-                <Text>
-                  {`Disclose in ${differenceInDays(
-                    item.disclose_date,
-                    new Date()
-                  )} days`}
-                </Text>
-              }
-              centerElement={{
-                primaryText: item.name
-              }}
-              onPress={() => {
-                navigation.navigate("TodayDiary");
-              }}
-            />
-          );
-        }}
-        keyExtractor={(item, index) => index.toString()}
-      />
-      <ActionButton
-        onPress={() => {
-          navigation.navigate("DiaryNew");
-        }}
-      />
-    </View>
-  );
-});
+class TodayIndex extends Component {
+  constructor() {
+    super();
+  }
+
+  handleOnDelete = diary => {
+    Alert.alert(
+      "Delete",
+      `Do you want to delete ${diary.name}?`,
+      [
+        {
+          text: "Yes",
+          onPress: () => console.log("Ask me later pressed")
+        },
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        }
+      ],
+      { cancelable: false }
+    );
+  };
+
+  render() {
+    const { diary, navigation } = this.props;
+
+    return (
+      <View style={styles.root}>
+        <FlatList
+          data={diary.data}
+          renderItem={({ item }) => {
+            return (
+              <DiarySwipeable>
+                <Row item={item} navigation={navigation} />
+              </DiarySwipeable>
+            );
+          }}
+          keyExtractor={(item, index) => index.toString()}
+        />
+        <ActionButton
+          onPress={() => {
+            navigation.navigate("DiaryNew");
+          }}
+        />
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: "rgb(255, 255,255)"
   },
-  textContainer: {
-    marginLeft: 16,
-    marginRight: 16
+  rightElementText: {
+    marginRight: 16,
+    height: 55,
+    color: "rgb(117, 117, 117)"
   }
 });
 
-export default TodayIndex;
+export default connect(mapStateToProps)(withNavigation(TodayIndex));

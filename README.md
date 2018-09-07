@@ -34,6 +34,7 @@ After opening new Terminal, run the following commands below to start react-nati
 $ cd react_native_client
 $ npm install or yarn install
 $ react-native link react-native-vector-icons
+$ react-native link react-native-gesture-handler
 $ react-native start
 ```
 

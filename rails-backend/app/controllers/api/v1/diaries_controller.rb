@@ -29,7 +29,7 @@ class Api::V1::DiariesController < Api::ApplicationController
     if @diary.destroy
       render json: @diary
     else
-      render json: {error:@diary.errros}
+      render json: {error: @diary.errros}
     end
   end
 
