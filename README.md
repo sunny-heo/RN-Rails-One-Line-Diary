@@ -34,12 +34,13 @@ After opening new Terminal, run the following commands below to start react-nati
 $ cd react_native_client
 $ npm install or yarn install
 $ react-native link react-native-vector-icons
+$ react-native link react-native-gesture-handler
 $ react-native start
 ```
 
 ### Run iOS application
 
-Assuming that you have Xcode installed, run the following commands below in new Terminal to start iOS application.
+Assuming that you have Xcode installed, run the following commands below in new Terminal to start app on iOS device.
 
 ```
 $ react-native run-ios
@@ -47,7 +48,7 @@ $ react-native run-ios
 
 ### Run android application
 
-Assuming that you have Android Studio installed, run the following commands below in new Terminal to start android application.
+Assuming that you have Android Studio installed, run the following commands below in new Terminal to start app on android device.
 
 ```
 $ react-native run-android
