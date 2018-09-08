@@ -2,15 +2,17 @@ import { createStackNavigator } from "react-navigation";
 import {
   TodayIndex,
   TodayDiary,
-  PeopleIndex,
-  DiariesIndex,
-  SettingsIndex
+  DiaryNew,
+  DiaryUpdate
 } from "../presentations";
 
 const Today = createStackNavigator(
-  { TodayIndex, TodayDiary },
+  { TodayIndex, TodayDiary, DiaryNew, DiaryUpdate },
   {
-    initialRouteName: "TodayIndex"
+    initialRouteName: "TodayIndex",
+    navigationOptions: ({ navigation }) => ({
+      header: null
+    })
   }
 );
 

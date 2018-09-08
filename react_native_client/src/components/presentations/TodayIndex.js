@@ -1,54 +1,65 @@
-import React, { Component, Fragment } from "react";
-import { View, FlatList, Text, StyleSheet } from "react-native";
-import {
-  Subheader,
-  ListItem,
-  Divider,
-  ActionButton
-} from "react-native-material-ui";
-import { TextField } from "react-native-material-textfield";
+import React, { Component } from "react";
+import { compose } from "recompose";
+import { connect } from "react-redux";
+import { View, Text, Alert, StyleSheet } from "react-native";
+import { ListItem, ActionButton, Icon } from "react-native-material-ui";
+import { DiarySwipeable } from "../gestures";
 import { differenceInDays } from "date-fns";
 import { withNavigation } from "react-navigation";
+import { FlatList } from "react-native-gesture-handler";
+
+const mapStateToProps = (state, nextOwnProps) => state;
+
+const Row = ({ item, navigation }) => (
+  <ListItem
+    divider
+    rightElement={
+      <Text style={styles.rightElementText}>
+        {`Disclose in ${differenceInDays(item.disclose_date, new Date())} days`}
+      </Text>
+    }
+    centerElement={{
+      primaryText: item.name,
+      secondaryText: "with [friends' name]",
+      tertiaryText: "tertiary"
+    }}
+    onPress={() => {
+      navigation.navigate("TodayDiary");
+    }}
+  />
+);
 
 class TodayIndex extends Component {
-  static navigationOptions = {
-    header: null
-  };
-  sampleDiary = Array(20)
-    .fill()
-    .map((e, i) => {
-      return {
-        title: `${i} day diary`,
-        timeStamp: new Date() - i * 1000000000
-      };
-    });
+  constructor() {
+    super();
+  }
 
   render() {
+    const { diary, navigation, dispatch } = this.props;
+
     return (
       <View style={styles.root}>
         <FlatList
-          data={this.sampleDiary}
+          data={diary.data}
           renderItem={({ item }) => {
             return (
-              <ListItem
-                divider
-                leftElement={
-                  <Text>
-                    {`${differenceInDays(new Date(), item.timeStamp)}days`}
-                  </Text>
-                }
-                centerElement={{
-                  primaryText: item.title
-                }}
-                onPress={() => {
-                  this.props.navigation.navigate("TodayDiary");
-                }}
-              />
+              <DiarySwipeable
+                diary={item}
+                navigation={navigation}
+                dispatch={dispatch}
+              >
+                <Row item={item} />
+              </DiarySwipeable>
             );
           }}
           keyExtractor={(item, index) => index.toString()}
         />
-        <ActionButton />
+
+        <ActionButton
+          onPress={() => {
+            navigation.navigate("DiaryNew");
+          }}
+        />
       </View>
     );
   }
@@ -59,13 +70,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "rgb(255, 255,255)"
   },
-  textContainer: {
-    // width: "100%",
-    // alignItems: "center",
-    // justifyContent: "center",
-    marginLeft: 16,
-    marginRight: 16
-    // marginBottom: 5
+  rightElementText: {
+    marginRight: 16,
+    height: 55,
+    color: "rgb(117, 117, 117)"
   }
 });
-export default withNavigation(TodayIndex);
+
+export default connect(mapStateToProps)(withNavigation(TodayIndex));

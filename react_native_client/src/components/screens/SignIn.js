@@ -35,18 +35,18 @@ class SignIn extends Component {
     this.keyboardHeight = new Animated.Value(0);
     this.imageTranslateX = new Animated.Value(0);
 
-    this.emailRef = this.updateRef.bind(this, "email");
-    this.passwordRef = this.updateRef.bind(this, "password");
+    this.emailRef = this._updateRef.bind(this, "email");
+    this.passwordRef = this._updateRef.bind(this, "password");
   }
 
   componentWillMount() {
     this.keyboardWillShowSub = Keyboard.addListener(
       "keyboardWillShow",
-      this.keyboardWillShow
+      this._keyboardWillShow
     );
     this.keyboardWillHideSub = Keyboard.addListener(
       "keyboardWillHide",
-      this.keyboardWillHide
+      this._keyboardWillHide
     );
   }
 
@@ -55,7 +55,7 @@ class SignIn extends Component {
     this.keyboardWillHideSub.remove();
   }
 
-  keyboardWillShow = event => {
+  _keyboardWillShow = event => {
     Animated.parallel([
       Animated.timing(this.keyboardHeight, {
         duration: event.duration,
@@ -72,7 +72,7 @@ class SignIn extends Component {
     ]).start();
   };
 
-  keyboardWillHide = event => {
+  _keyboardWillHide = event => {
     Animated.parallel([
       Animated.timing(this.keyboardHeight, {
         duration: event.duration,
@@ -129,7 +129,7 @@ class SignIn extends Component {
         await this.props.dispatch(signInUser({ email, password }));
 
         const { user, navigation } = this.props;
-        if (user.signedIn) navigation.navigate("App");
+        if (user.signedIn) navigation.navigate("AuthLoading");
       }
     } catch (error) {
       console.log(error);
@@ -158,7 +158,7 @@ class SignIn extends Component {
     );
   };
 
-  updateRef(name, ref) {
+  _updateRef(name, ref) {
     this[name] = ref;
   }
 

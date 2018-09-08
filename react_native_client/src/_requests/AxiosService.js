@@ -1,9 +1,12 @@
+import { Platform } from "react-native";
 import axios from "axios";
+
+const domain = Platform.OS === "ios" ? "localhost" : "10.0.2.2";
 
 class AxiosService {
   constructor() {
     let service = axios.create({
-      baseURL: "http://localhost:3000/api/v1",
+      baseURL: `http://${domain}:3000/api/v1`,
       // timeout: 3000,
       withCredentials: true,
       headers: {
@@ -15,25 +18,9 @@ class AxiosService {
     this.service = service;
   }
 
-  handleSuccess(res) {
-    return res;
-  }
+  handleSuccess = res => res;
 
-  handleError = error => {
-    console.log(error);
-    switch (error.response.status) {
-      case 401:
-        this.redirectTo(document, "/sign_in");
-        break;
-      case 404:
-        this.redirectTo(document, "/404");
-        break;
-      default:
-        this.redirectTo(document, "/500");
-        break;
-    }
-    return Promise.reject(error);
-  };
+  handleError = error => Promise.reject(error);
 
   redirectTo = (document, path) => {
     document.location = path;
