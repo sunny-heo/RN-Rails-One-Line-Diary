@@ -1,8 +1,4 @@
 class Api::V1::DiariesController < Api::ApplicationController
-<<<<<<< HEAD
-  # before_action :authenticate_user!
-=======
->>>>>>> c2de4eefce2f1f7f4e898dfe12cc5a3bbce60bf9
   before_action :find_diary, only: [:update, :destroy]
 
   def index
