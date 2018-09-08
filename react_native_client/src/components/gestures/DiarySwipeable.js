@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Alert, Animated, Text, View, StyleSheet } from "react-native";
 import { RectButton, Swipeable } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { withNavigation } from "react-navigation";
 
 import { diaryActions } from "../../actions";
 
@@ -32,7 +33,9 @@ class DiarySwipeable extends Component {
     );
   };
   _handleOnEdit = () => {
-    alert("Edit");
+    const { navigation, diary } = this.props;
+    this.close();
+    navigation.navigate("DiaryUpdate", { diary });
   };
 
   renderLeftActions = (progress, dragX) => {
@@ -126,4 +129,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default DiarySwipeable;
+export default withNavigation(DiarySwipeable);

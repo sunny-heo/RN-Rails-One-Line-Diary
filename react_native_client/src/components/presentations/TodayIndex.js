@@ -48,7 +48,7 @@ class TodayIndex extends Component {
                 navigation={navigation}
                 dispatch={dispatch}
               >
-                <Row item={item} navigation={navigation} />
+                <Row item={item} />
               </DiarySwipeable>
             );
           }}
