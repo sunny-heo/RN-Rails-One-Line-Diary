@@ -1,5 +1,6 @@
 import { diaryConstants } from "../config/constants";
-import "../_helpers/array";
+import { _array } from "../_helpers";
+
 const {
   DIARY_INDEX_PENDING,
   DIARY_INDEX_REJECTED,
@@ -30,6 +31,12 @@ const initialState = {
   fulfilledCreate: false,
   rejectedCreate: false,
   createErrors: {},
+
+  updatedData: null,
+  pendingUpdate: false,
+  fulfilledUpdate: false,
+  rejectedUpdate: false,
+  updateErrors: {},
 
   destroyedData: null,
   pendingDestroy: false,
