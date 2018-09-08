@@ -11,6 +11,10 @@ const {
   DIARY_CREATE_REJECTED,
   DIARY_CREATE_FULFILLED,
 
+  DIARY_UPDATE_PENDING,
+  DIARY_UPDATE_REJECTED,
+  DIARY_UPDATE_FULFILLED,
+
   DIARY_DESTROY_PENDING,
   DIARY_DESTROY_REJECTED,
   DIARY_DESTROY_FULFILLED
@@ -36,6 +40,17 @@ export default {
       dispatch({ type: DIARY_CREATE_FULFILLED, payload: newDiary });
     } catch (error) {
       dispatch({ type: DIARY_CREATE_REJECTED, payload: error });
+    }
+  },
+
+  update: diary => async dispatch => {
+    dispatch({ type: DIARY_UPDATE_PENDING });
+
+    try {
+      const updatedDiary = await diaryService.update(diary);
+      dispatch({ type: DIARY_UPDATE_FULFILLED, payload: updatedDiary });
+    } catch (error) {
+      dispatch({ type: DIARY_UPDATE_REJECTED, payload: error });
     }
   },
 

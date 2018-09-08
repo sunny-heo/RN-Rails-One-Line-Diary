@@ -1,4 +1,5 @@
 import { diaryConstants } from "../config/constants";
+import { _array } from "../_helpers";
 
 const {
   DIARY_INDEX_PENDING,
@@ -8,6 +9,10 @@ const {
   DIARY_CREATE_PENDING,
   DIARY_CREATE_REJECTED,
   DIARY_CREATE_FULFILLED,
+
+  DIARY_UPDATE_PENDING,
+  DIARY_UPDATE_REJECTED,
+  DIARY_UPDATE_FULFILLED,
 
   DIARY_DESTROY_PENDING,
   DIARY_DESTROY_REJECTED,
@@ -26,6 +31,12 @@ const initialState = {
   fulfilledCreate: false,
   rejectedCreate: false,
   createErrors: {},
+
+  updatedData: null,
+  pendingUpdate: false,
+  fulfilledUpdate: false,
+  rejectedUpdate: false,
+  updateErrors: {},
 
   destroyedData: null,
   pendingDestroy: false,
@@ -81,6 +92,32 @@ export default (state = initialState, action) => {
         createErrors: {},
         data: [newDiary].concat(state.data),
         createdData: newDiary
+      };
+    }
+
+    case DIARY_UPDATE_PENDING: {
+      return { ...state, pendingUpdate: true };
+    }
+
+    case DIARY_UPDATE_REJECTED: {
+      return {
+        ...state,
+        pendingUpdate: false,
+        rejectedUpdate: true,
+        updateErrors: action.payload
+      };
+    }
+
+    case DIARY_UPDATE_FULFILLED: {
+      const updatedDiary = action.payload;
+
+      return {
+        ...state,
+        pendingUpdate: false,
+        fulfilledUpdate: true,
+        updateErrors: {},
+        data: state.data._replaceObj(updatedDiary, "id"),
+        updatedData: updatedDiary
       };
     }
 
