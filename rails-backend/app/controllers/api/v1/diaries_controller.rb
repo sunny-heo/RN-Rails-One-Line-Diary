@@ -19,7 +19,7 @@ class Api::V1::DiariesController < Api::ApplicationController
 
   def update
     if @diary.update diary_params
-      render json: { message: "'#{@diary.name}' has been updated" }
+      render json: @diary
     else
       render json: { error: @diary.errors }
     end

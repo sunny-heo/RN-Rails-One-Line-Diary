@@ -3,7 +3,7 @@ import { compose } from "recompose";
 import { connect } from "react-redux";
 import { View, Text, Alert, StyleSheet } from "react-native";
 import { ListItem, ActionButton, Icon } from "react-native-material-ui";
-import DiarySwipeable from "./DiarySwipeable";
+import { DiarySwipeable } from "../gestures";
 import { differenceInDays } from "date-fns";
 import { withNavigation } from "react-navigation";
 import { FlatList } from "react-native-gesture-handler";
@@ -48,12 +48,13 @@ class TodayIndex extends Component {
                 navigation={navigation}
                 dispatch={dispatch}
               >
-                <Row item={item} navigation={navigation} />
+                <Row item={item} />
               </DiarySwipeable>
             );
           }}
           keyExtractor={(item, index) => index.toString()}
         />
+
         <ActionButton
           onPress={() => {
             navigation.navigate("DiaryNew");
