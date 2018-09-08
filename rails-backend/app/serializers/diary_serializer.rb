@@ -1,5 +1,5 @@
 class DiarySerializer < ActiveModel::Serializer
-  attributes :id, :name, :disclose_date, :created_at, :updated_at
+  attributes :id, :name, :disclose_date, :created_at
 
   # belongs_to :user, key: :owner
   
