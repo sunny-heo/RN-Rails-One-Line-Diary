@@ -54,6 +54,7 @@ class TodayIndex extends Component {
           }}
           keyExtractor={(item, index) => index.toString()}
         />
+
         <ActionButton
           onPress={() => {
             navigation.navigate("DiaryNew");
