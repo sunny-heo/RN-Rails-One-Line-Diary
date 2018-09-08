@@ -55,8 +55,8 @@ export default {
     try {
       await userService.signOut();
       dispatch({ type: SIGNOUT_USER_FULFILLED, payload: {} });
-      // await AsyncStorage.removeItem("userData");
-      await AsyncStorage.clear();
+      await AsyncStorage.removeItem("userData");
+      // await AsyncStorage.clear();
     } catch (error) {
       dispatch({ type: SIGNOUT_USER_REJECTED, payload: error });
     }
@@ -65,6 +65,8 @@ export default {
     dispatch({ type: CURRENT_USER_PENDING });
     try {
       const user = JSON.parse(await AsyncStorage.getItem("userData"));
+      console.log("user");
+      console.log(user);
       user
         ? dispatch({ type: CURRENT_USER_FULFILLED, payload: user })
         : dispatch({ type: CURRENT_USER_REJECTED, payload: null });

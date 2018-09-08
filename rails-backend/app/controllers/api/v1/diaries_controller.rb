@@ -1,5 +1,4 @@
 class Api::V1::DiariesController < Api::ApplicationController
-  # before_action :authenticate_user!
   before_action :find_diary, only: [:update, :destroy]
 
   def index
@@ -20,15 +19,18 @@ class Api::V1::DiariesController < Api::ApplicationController
 
   def update
     if @diary.update diary_params
-      render json: { message: "'#{@diary.name}' has been updated" }
+      render json: @diary
     else
       render json: { error: @diary.errors }
     end
   end
 
   def destroy
-    @diary.destroy
-    render json: { message: "'#{diary.name}' has been removed" }
+    if @diary.destroy
+      render json: @diary
+    else
+      render json: {error: @diary.errros}
+    end
   end
 
 

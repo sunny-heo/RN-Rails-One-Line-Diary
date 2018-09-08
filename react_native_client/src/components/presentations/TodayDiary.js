@@ -48,15 +48,6 @@ class TodayIndex extends Component {
             }}
             onPress={this._onSubmit}
           />
-          {/* <Button
-          primary
-          raised
-          text="Cancel"
-          style={{
-            container: styles.btnContainer
-          }}
-          onPress={this._onSubmit}
-        /> */}
         </View>
       </View>
     );
