@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { View, StyleSheet } from "react-native";
 import { Subheader } from "react-native-material-ui";
-class People extends Component {
+class Friend extends Component {
   render() {
     return (
       <View style={styles.root}>
@@ -20,4 +20,4 @@ const styles = StyleSheet.create({
     marginRight: 16
   }
 });
-export default People;
+export default Friend;

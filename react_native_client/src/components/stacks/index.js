@@ -1,6 +1,6 @@
 import Today from "./Today";
-import People from "./People";
+import Friend from "./Friend";
 import Diaries from "./Diaries";
 import Settings from "./Settings";
 
-export { Today, People, Diaries, Settings };
+export { Today, Friend, Diaries, Settings };

@@ -3,7 +3,7 @@ import TodayDiary from "./TodayDiary";
 import DiaryNew from "./DiaryNew";
 import DiaryUpdate from "./DiaryUpdate";
 
-import PeopleIndex from "./PeopleIndex";
+import FriendsIndex from "./FriendsIndex";
 import DiariesIndex from "./DiariesIndex";
 import SettingsIndex from "./SettingsIndex";
 
@@ -12,7 +12,7 @@ export {
   TodayDiary,
   DiaryNew,
   DiaryUpdate,
-  PeopleIndex,
+  FriendsIndex,
   DiariesIndex,
   SettingsIndex
 };

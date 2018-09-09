@@ -16,7 +16,7 @@ class BottomNav extends Component {
           key="people"
           icon="people"
           label="Friends"
-          onPress={onPressBotNavItem("people")}
+          onPress={onPressBotNavItem("friends")}
         />
         <BottomNavigation.Action
           key="diaries"
