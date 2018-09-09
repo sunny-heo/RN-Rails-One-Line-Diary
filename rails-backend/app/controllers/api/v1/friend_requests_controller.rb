@@ -7,7 +7,10 @@ class Api::V1::FriendRequestsController < Api::ApplicationController
     
     # render json: @outgoing_requests, each_serializer: OutgoingFriendRequestSerializer, @incoming_requests
 
-    incoming_requests = FriendRequest.select('id', 'user_id', 'created_at').where(:friend => current_user).order(created_at: :desc)
+    # incoming_requests = FriendRequest.select('id', 'user_id', 'created_at').where(:friend => current_user).order(created_at: :desc)
+    # outgoing_requests = current_user.friend_requests.select('id', 'friend_id', 'created_at')
+
+    incoming_requests = json: FriendRequest.where(:friend => current_user).order(created_at: :desc) each_serializer: OutgoingFriendRequestSerializer
     outgoing_requests = current_user.friend_requests.select('id', 'friend_id', 'created_at')
 
     render json: {
