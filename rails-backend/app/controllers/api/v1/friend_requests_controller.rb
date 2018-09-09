@@ -2,20 +2,26 @@ class Api::V1::FriendRequestsController < Api::ApplicationController
   before_action :find_friend_request, except: [:index, :create]
 
   def index
-    # @incoming_requests = FriendRequest.where(:friend => current_user).order(created_at: :desc)
-    # @outgoing_requests = current_user.friend_requests
-    
-    # render json: @outgoing_requests, each_serializer: OutgoingFriendRequestSerializer, @incoming_requests
-
-    # incoming_requests = FriendRequest.select('id', 'user_id', 'created_at').where(:friend => current_user).order(created_at: :desc)
-    # outgoing_requests = current_user.friend_requests.select('id', 'friend_id', 'created_at')
-
-    incoming_requests = json: FriendRequest.where(:friend => current_user).order(created_at: :desc) each_serializer: OutgoingFriendRequestSerializer
-    outgoing_requests = current_user.friend_requests.select('id', 'friend_id', 'created_at')
+    incoming_requests = FriendRequest.where(:friend => current_user).order(created_at: :desc)
+    outgoing_requests = current_user.friend_requests.order(created_at: :desc)
 
     render json: {
-      incoming_requests: incoming_requests, 
-      outgoing_requests: outgoing_requests
+      incoming_requests: incoming_requests.as_json(
+        :only => [ :id, :created_at ], 
+        include: { 
+          user: {
+            only: :email
+          }
+        }
+      ), 
+      outgoing_requests: outgoing_requests.as_json(
+        :only => [ :friend_id, :created_at ], 
+        include: {
+          friend: {
+            only: :email
+          }
+        }
+      )
     }  
   end 
     
