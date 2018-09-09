@@ -41,7 +41,6 @@ class Api::V1::FriendRequestsController < Api::ApplicationController
 
   def destroy
     @friend_request.destroy
-
   end
 
   private
