@@ -1,11 +1,7 @@
-import TodayIndex from "./TodayIndex";
-import TodayDiary from "./TodayDiary";
-import DiaryNew from "./DiaryNew";
-import DiaryUpdate from "./DiaryUpdate";
-
-import FriendsIndex from "./FriendsIndex";
-import DiariesIndex from "./DiariesIndex";
-import SettingsIndex from "./SettingsIndex";
+import { TodayIndex, TodayDiary, DiaryNew, DiaryUpdate } from "./today";
+import { FriendsIndex } from "./friends";
+import { DiariesIndex } from "./diaries";
+import { SettingsIndex } from "./settings";
 
 export {
   TodayIndex,
