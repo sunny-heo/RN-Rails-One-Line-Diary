@@ -4,6 +4,7 @@ class FriendRequest < ApplicationRecord
 
   def accept
     user.friends << friend
+    friend.friends << user
     destroy
   end
 end

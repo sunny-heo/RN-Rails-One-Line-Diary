@@ -9,6 +9,8 @@
 PASSWORD = "superSecret1@"
 
 User.destroy_all
+FriendRequest.destroy_all
+Friendship.destroy_all
 Diary.destroy_all
 DailyContent.destroy_all
 
@@ -21,7 +23,7 @@ super_user = User.create(
   "admin": true
 )
 
-10.times.each do
+40.times.each do
   first_name = Faker::Name.first_name
   last_name = Faker::Name.last_name
   gender = [:male, :female, :neither].sample
@@ -37,6 +39,23 @@ end
 
 users = User.all
 puts Cowsay.say "Created #{users.count} users", :sheep
+
+users.each do |user|
+  20.times do 
+    friend = (users - [user]).sample
+    FriendRequest.create(user: user, friend: friend)
+  end
+
+  10.times do 
+    user.friend_requests.sample.accept
+  end
+end
+
+friend_requests = FriendRequest.all
+puts Cowsay.say "Created #{friend_requests.count} friend_requests", :sheep
+
+friendships = Friendship.all
+puts Cowsay.say "Created #{friendships.count} friendships", :sheep
 
 100.times.each do
   name = Faker::Beer.name
