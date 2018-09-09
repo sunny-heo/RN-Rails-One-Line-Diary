@@ -6,6 +6,8 @@ Rails.application.routes.draw do
       resources :diaries, shallow:true do 
         resources :daily_contents
       end
+      resources :friends, only: [:index, :destroy]
+      resources :friend_requests, only: [:index, :create, :update, :destroy]
     end
   end
 end
