@@ -22,8 +22,7 @@ export default {
   async update(request_id) {
     try {
       const acceptedRequest = await service.patch(
-        `/${FRIEND_REQUESTS}/${request_id}`,
-        body
+        `/${FRIEND_REQUESTS}/${request_id}`
       );
       return acceptedRequest;
     } catch (error) {
