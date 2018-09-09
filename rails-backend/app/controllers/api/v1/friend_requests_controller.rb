@@ -10,7 +10,7 @@ class Api::V1::FriendRequestsController < Api::ApplicationController
         :only => [ :id, :created_at ], 
         include: { 
           user: {
-            only: :email
+            only: [:email, :first_name, :last_name]
           }
         }
       ), 
@@ -18,7 +18,7 @@ class Api::V1::FriendRequestsController < Api::ApplicationController
         :only => [ :friend_id, :created_at ], 
         include: {
           friend: {
-            only: :email
+            only: [:email, :first_name, :last_name]
           }
         }
       )
