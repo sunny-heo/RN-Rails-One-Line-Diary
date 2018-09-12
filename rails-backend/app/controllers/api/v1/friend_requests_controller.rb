@@ -15,7 +15,7 @@ class Api::V1::FriendRequestsController < Api::ApplicationController
         }
       ), 
       outgoing_requests: outgoing_requests.as_json(
-        :only => [ :friend_id, :created_at ], 
+        :only => [ :id, :created_at ], 
         include: {
           friend: {
             only: [:email, :first_name, :last_name]
@@ -55,6 +55,30 @@ class Api::V1::FriendRequestsController < Api::ApplicationController
   private
   def find_friend_request
     @friend_request = FriendRequest.find(params[:id])
+  end
+
+  def get_incoming_outcoming_requests
+    incoming_requests = FriendRequest.where(:friend => current_user).order(created_at: :desc)
+    outgoing_requests = current_user.friend_requests.order(created_at: :desc)
+
+    render json: {
+      incoming_requests: incoming_requests.as_json(
+        :only => [ :id, :created_at ], 
+        include: { 
+          user: {
+            only: [:email, :first_name, :last_name]
+          }
+        }
+      ), 
+      outgoing_requests: outgoing_requests.as_json(
+        :only => [ :friend_id, :created_at ], 
+        include: {
+          friend: {
+            only: [:email, :first_name, :last_name]
+          }
+        }
+      )
+    }  
   end
 
 end
