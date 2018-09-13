@@ -1,5 +1,5 @@
 import { TodayIndex, TodayDiary, DiaryNew, DiaryUpdate } from "./today";
-import { FriendsIndex } from "./friends";
+import { FriendHome, FriendRequestIndex } from "./friends";
 import { DiariesIndex } from "./diaries";
 import { SettingsIndex } from "./settings";
 
@@ -8,7 +8,8 @@ export {
   TodayDiary,
   DiaryNew,
   DiaryUpdate,
-  FriendsIndex,
+  FriendHome,
+  FriendRequestIndex,
   DiariesIndex,
   SettingsIndex
 };

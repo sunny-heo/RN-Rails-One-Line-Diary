@@ -1,3 +1,4 @@
-import FriendsIndex from "./FriendsIndex";
+import FriendHome from "./FriendHome";
+import FriendRequestIndex from "./FriendRequestIndex";
 
-export { FriendsIndex };
+export { FriendHome, FriendRequestIndex };

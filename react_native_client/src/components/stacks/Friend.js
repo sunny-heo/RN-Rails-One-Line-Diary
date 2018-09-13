@@ -1,23 +1,14 @@
-import React, { Component } from "react";
-import { View, StyleSheet } from "react-native";
-import { Subheader } from "react-native-material-ui";
-class Friend extends Component {
-  render() {
-    return (
-      <View style={styles.root}>
-        <Subheader text="People" />
-      </View>
-    );
+import { createStackNavigator } from "react-navigation";
+import { FriendHome, FriendRequestIndex } from "../presentations";
+
+const Friend = createStackNavigator(
+  { FriendHome, FriendRequestIndex },
+  {
+    initialRouteName: "FriendHome",
+    navigationOptions: ({ navigation }) => ({
+      header: null
+    })
   }
-}
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: "rgb(255, 255,255)"
-  },
-  textContainer: {
-    marginLeft: 16,
-    marginRight: 16
-  }
-});
+);
+
 export default Friend;

@@ -1,5 +1,5 @@
 import userConstants from "./userConstants";
 import diaryConstants from "./diaryConstants";
-import friendConstants from "./friendConstants";
+import friendRequestConstants from "./friendRequestConstants";
 
-export { userConstants, diaryConstants, friendConstants };
+export { userConstants, diaryConstants, friendRequestConstants };

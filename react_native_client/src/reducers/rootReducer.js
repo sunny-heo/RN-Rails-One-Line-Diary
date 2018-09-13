@@ -1,10 +1,12 @@
 import { combineReducers } from "redux";
 import user from "./userReducer";
 import diary from "./diaryReducer";
+import friendRequest from "./friendRequestReducer";
 
 const rootReducer = combineReducers({
   user,
-  diary
+  diary,
+  friendRequest
 });
 
 export default rootReducer;
