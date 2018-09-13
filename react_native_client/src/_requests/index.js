@@ -1,3 +1,4 @@
 import userService from "./userService";
 import diaryService from "./diaryService";
-export { userService, diaryService };
+import friendRequestService from "./friendRequestService";
+export { userService, diaryService, friendRequestService };

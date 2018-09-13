@@ -18,15 +18,14 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 
 import MultiSelect from "react-native-multiple-select";
 import RF from "react-native-responsive-fontsize";
-import { diaryActions } from "../../actions";
+import { diaryActions } from "../../../actions";
 
 const mapStateToProps = (state, nextOwnProps) => state;
 
-class DiaryUpdate extends Component {
+class DiaryNew extends Component {
   constructor() {
     super();
     this.state = {
-      id: null,
       name: "",
       isDateTimePickerVisible: false,
       discloseDate: null,
@@ -78,18 +77,6 @@ class DiaryUpdate extends Component {
   }
 
   componentDidMount() {
-    const { navigation } = this.props;
-    const { id, name, disclose_date: discloseDate } = navigation.getParam(
-      "diary",
-      {}
-    );
-
-    this.setState({
-      id,
-      name,
-      discloseDate
-    });
-
     this.name.focus();
   }
 
@@ -147,21 +134,17 @@ class DiaryUpdate extends Component {
   _onSubmit = async () => {
     try {
       await this._validateInputs();
-      const { id, name, discloseDate, errors } = this.state;
+      const { name, discloseDate, errors } = this.state;
 
       if (!Object.keys(errors).length) {
-        // const disclose_date = discloseDate.toString();
-        // console.log(discloseDate);
-        await this.props.dispatch(
-          diaryActions.update({ id, name, disclose_date: discloseDate })
-        );
+        const disclose_date = discloseDate.toString();
+        await this.props.dispatch(diaryActions.create({ name, disclose_date }));
         const { navigation, diary } = this.props;
-        if (diary.fulfilledUpdate) navigation.navigate("Home");
+        if (diary.fulfilledCreate) navigation.navigate("Home");
       }
     } catch (error) {
       console.log(error);
     }
-    console.log(this.props);
   };
 
   render() {
@@ -226,13 +209,12 @@ class DiaryUpdate extends Component {
           ) : null}
         </View>
 
-        <Button primary raised text="Update" onPress={this._onSubmit} />
+        <Button primary raised text="Create" onPress={this._onSubmit} />
 
         <DateTimePicker
           isVisible={this.state.isDateTimePickerVisible}
           onConfirm={this._handleDatePicked}
           onCancel={this._hideDateTimePicker}
-          date={new Date(discloseDate)}
           mode={"date"}
         />
       </View>
@@ -268,4 +250,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect(mapStateToProps)(withNavigation(DiaryUpdate));
+export default connect(mapStateToProps)(DiaryNew);

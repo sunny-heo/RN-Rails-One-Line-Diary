@@ -13,10 +13,10 @@ class BottomNav extends Component {
           onPress={onPressBotNavItem("today")}
         />
         <BottomNavigation.Action
-          key="people"
+          key="friends"
           icon="people"
           label="Friends"
-          onPress={onPressBotNavItem("people")}
+          onPress={onPressBotNavItem("friends")}
         />
         <BottomNavigation.Action
           key="diaries"

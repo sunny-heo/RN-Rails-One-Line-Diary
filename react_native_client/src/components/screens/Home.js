@@ -8,7 +8,7 @@ import { Today } from "../stacks";
 
 import {
   TodayIndex,
-  PeopleIndex,
+  FriendHome,
   DiariesIndex,
   SettingsIndex
 } from "../presentations";
@@ -20,8 +20,8 @@ const Presentation = ({ active }) => {
   switch (active) {
     case "today":
       return <TodayIndex />;
-    case "people":
-      return <PeopleIndex />;
+    case "friends":
+      return <FriendHome />;
     case "diaries":
       return <DiariesIndex />;
     case "settings":

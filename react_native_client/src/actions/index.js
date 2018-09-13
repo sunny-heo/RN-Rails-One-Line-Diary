@@ -1,3 +1,4 @@
 import userActions from "./userActions";
 import diaryActions from "./diaryActions";
-export { userActions, diaryActions };
+import friendRequestActions from "./friendRequestActions";
+export { userActions, diaryActions, friendRequestActions };

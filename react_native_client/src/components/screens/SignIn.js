@@ -16,6 +16,13 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 const IMAGE_SCALE_LARGE = 1.15;
 const IMAGE_TRNSLATE_X = 20;
 const mapStateToProps = (state, nextOwnProps) => state;
+const mapDispatchToProps = dispatch => {
+  return {
+    onSignIn: async (email, password) => {
+      await dispatch(userActions.signInUser({ email, password }));
+    }
+  };
+};
 
 class SignIn extends Component {
   static navigationOptions = {
@@ -125,8 +132,7 @@ class SignIn extends Component {
       const { email, password, errors } = this.state;
 
       if (!Object.keys(errors).length) {
-        const { signInUser } = userActions;
-        await this.props.dispatch(signInUser({ email, password }));
+        await this.props.onSignIn(email, password);
 
         const { user, navigation } = this.props;
         if (user.signedIn) navigation.navigate("AuthLoading");
@@ -264,4 +270,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect(mapStateToProps)(SignIn);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SignIn);
