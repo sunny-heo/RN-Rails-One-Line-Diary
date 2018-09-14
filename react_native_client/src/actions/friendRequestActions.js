@@ -29,7 +29,7 @@ export default {
     } catch (error) {
       dispatch({ type: FRIEND_REQUEST_INDEX_REJECTED, payload: error });
     }
-  }
+  },
 
   // create: diary => async dispatch => {
   //   dispatch({ type: FRIEND_REQUEST_CREATE_PENDING });
@@ -42,19 +42,19 @@ export default {
   //   }
   // },
 
-  // update: diary => async dispatch => {
-  //   dispatch({ type: FRIEND_REQUEST_UPDATE_PENDING });
+  update: diary => async dispatch => {
+    dispatch({ type: FRIEND_REQUEST_UPDATE_PENDING });
 
-  //   try {
-  //     const updatedDiary = await friendRequestService.update(diary);
-  //     dispatch({
-  //       type: FRIEND_REQUEST_UPDATE_FULFILLED,
-  //       payload: updatedDiary
-  //     });
-  //   } catch (error) {
-  //     dispatch({ type: FRIEND_REQUEST_UPDATE_REJECTED, payload: error });
-  //   }
-  // },
+    try {
+      const updatedDiary = await friendRequestService.update(diary);
+      dispatch({
+        type: FRIEND_REQUEST_UPDATE_FULFILLED,
+        payload: updatedDiary
+      });
+    } catch (error) {
+      dispatch({ type: FRIEND_REQUEST_UPDATE_REJECTED, payload: error });
+    }
+  }
 
   // destroy: diaryId => async dispatch => {
   //   dispatch({ type: FRIEND_REQUEST_DESTROY_PENDING });

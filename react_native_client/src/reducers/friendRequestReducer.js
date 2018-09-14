@@ -4,15 +4,15 @@ import { _array } from "../_helpers";
 const {
   FRIEND_REQUEST_INDEX_PENDING,
   FRIEND_REQUEST_INDEX_REJECTED,
-  FRIEND_REQUEST_INDEX_FULFILLED
+  FRIEND_REQUEST_INDEX_FULFILLED,
 
   // FRIEND_REQUEST_CREATE_PENDING,
   // FRIEND_REQUEST_CREATE_REJECTED,
   // FRIEND_REQUEST_CREATE_FULFILLED,
 
-  // FRIEND_REQUEST_UPDATE_PENDING,
-  // FRIEND_REQUEST_UPDATE_REJECTED,
-  // FRIEND_REQUEST_UPDATE_FULFILLED,
+  FRIEND_REQUEST_UPDATE_PENDING,
+  FRIEND_REQUEST_UPDATE_REJECTED,
+  FRIEND_REQUEST_UPDATE_FULFILLED
 
   // FRIEND_REQUEST_DESTROY_PENDING,
   // FRIEND_REQUEST_DESTROY_REJECTED,
@@ -95,31 +95,31 @@ export default (state = initialState, action) => {
     //   };
     // }
 
-    // case FRIEND_REQUEST_UPDATE_PENDING: {
-    //   return { ...state, pendingUpdate: true };
-    // }
+    case FRIEND_REQUEST_UPDATE_PENDING: {
+      return { ...state, pendingUpdate: true };
+    }
 
-    // case FRIEND_REQUEST_UPDATE_REJECTED: {
-    //   return {
-    //     ...state,
-    //     pendingUpdate: false,
-    //     rejectedUpdate: true,
-    //     updateErrors: action.payload
-    //   };
-    // }
+    case FRIEND_REQUEST_UPDATE_REJECTED: {
+      return {
+        ...state,
+        pendingUpdate: false,
+        rejectedUpdate: true,
+        updateErrors: action.payload
+      };
+    }
 
-    // case FRIEND_REQUEST_UPDATE_FULFILLED: {
-    //   const updatedDiary = action.payload;
+    case FRIEND_REQUEST_UPDATE_FULFILLED: {
+      const updatedDiary = action.payload;
 
-    //   return {
-    //     ...state,
-    //     pendingUpdate: false,
-    //     fulfilledUpdate: true,
-    //     updateErrors: {},
-    //     data: state.data._replaceObj(updatedDiary, "id"),
-    //     updatedData: updatedDiary
-    //   };
-    // }
+      return {
+        ...state,
+        pendingUpdate: false,
+        fulfilledUpdate: true,
+        updateErrors: {},
+        data: state.data._removeObj(updatedDiary, "id"),
+        updatedData: updatedDiary
+      };
+    }
 
     // case FRIEND_REQUEST_DESTROY_PENDING: {
     //   return { ...state, pendingDestroy: true };
