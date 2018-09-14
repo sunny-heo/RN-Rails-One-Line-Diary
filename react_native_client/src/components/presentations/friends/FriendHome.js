@@ -16,7 +16,7 @@ import { withNavigation } from "react-navigation";
 import { FlatList, Switch } from "react-native-gesture-handler";
 import { friendRequestActions } from "../../../actions";
 import { FriendTopNav } from "../../navigations";
-import { FriendRequestIndex } from "./";
+import { IncomingRequestIndex, OutgoingRequestIndex } from "./";
 import Tab from "./Tab";
 
 const mapStateToProps = (state, nextOwnProps) => state;
@@ -35,7 +35,9 @@ const mapDispatchToProps = dispatch => {
 const Presentation = ({ active }) => {
   switch (active) {
     case "Incoming":
-      return <FriendRequestIndex />;
+      return <IncomingRequestIndex />;
+    case "Outgoing":
+      return <OutgoingRequestIndex />;
     default:
       return <Text>text</Text>;
   }
@@ -64,6 +66,7 @@ class FriendHome extends Component {
   //     this.setState({ refreshing: false });
   //   });
   // };
+
   _onPressTabItem = active => {
     console.log(active);
     this.setState({ active });

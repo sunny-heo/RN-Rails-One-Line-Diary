@@ -1,4 +1,5 @@
 import FriendHome from "./FriendHome";
-import FriendRequestIndex from "./FriendRequestIndex";
+import IncomingRequestIndex from "./IncomingRequestIndex";
+import OutgoingRequestIndex from "./OutgoingRequestIndex";
 
-export { FriendHome, FriendRequestIndex };
+export { FriendHome, IncomingRequestIndex, OutgoingRequestIndex };

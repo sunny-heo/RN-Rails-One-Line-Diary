@@ -38,8 +38,8 @@ const Row = ({ item, navigation }) => (
       </Text>
     }
     centerElement={{
-      primaryText: `${item.user.first_name} ${item.user.last_name}`,
-      secondaryText: item.user.email
+      primaryText: `${item.friend.first_name} ${item.friend.last_name}`,
+      secondaryText: item.friend.email
     }}
     onPress={() => {
       navigation.navigate("TodayDiary");
@@ -47,7 +47,7 @@ const Row = ({ item, navigation }) => (
   />
 );
 
-class FriendRequestIndex extends Component {
+class OutgoingRequestIndex extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -83,11 +83,11 @@ class FriendRequestIndex extends Component {
           //     onRefresh={this._onRefresh}
           //   />
           // }
-          data={friendRequest.data.incoming_requests}
+          data={friendRequest.data.outgoing_requests}
           renderItem={({ item }) => {
             return <Row item={item} />;
           }}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={item => item.id.toString()}
         />
       </View>
     );
@@ -110,4 +110,4 @@ const styles = StyleSheet.create({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withNavigation(FriendRequestIndex));
+)(withNavigation(OutgoingRequestIndex));
