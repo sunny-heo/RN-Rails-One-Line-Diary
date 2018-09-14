@@ -15,6 +15,7 @@ import { distanceInWordsToNow } from "date-fns";
 import { withNavigation } from "react-navigation";
 import { FlatList } from "react-native-gesture-handler";
 import { friendRequestActions } from "../../../actions";
+import { IncomingReqSwipeable } from "../../gestures";
 
 const mapStateToProps = (state, nextOwnProps) => state;
 const mapDispatchToProps = dispatch => {
@@ -29,17 +30,19 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const Row = ({ item, navigation }) => (
+const Row = ({ incomingReq, navigation }) => (
   <ListItem
     divider
     rightElement={
       <Text style={styles.rightElementText}>
-        {`${distanceInWordsToNow(item.created_at)} ago`}
+        {`${distanceInWordsToNow(incomingReq.created_at)} ago`}
       </Text>
     }
     centerElement={{
-      primaryText: `${item.user.first_name} ${item.user.last_name}`,
-      secondaryText: item.user.email
+      primaryText: `${incomingReq.user.first_name} ${
+        incomingReq.user.last_name
+      }`,
+      secondaryText: incomingReq.user.email
     }}
     onPress={() => {
       navigation.navigate("FriendProfile");
@@ -77,10 +80,18 @@ class IncomingRequestIndex extends Component {
           //   />
           // }
           data={friendRequest.data.incoming_requests}
-          renderItem={({ item }) => {
-            return <Row item={item} navigation={navigation} />;
+          renderItem={({ item: incomingReq }) => {
+            return (
+              <IncomingReqSwipeable
+                incomingReq={incomingReq}
+                navigation={navigation}
+                dispatch={dispatch}
+              >
+                <Row incomingReq={incomingReq} navigation={navigation} />
+              </IncomingReqSwipeable>
+            );
           }}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={item => item.id.toString()}
         />
       </View>
     );
