@@ -1,8 +1,8 @@
 import { createStackNavigator } from "react-navigation";
-import { FriendHome } from "../presentations";
+import { FriendHome, FriendProfile } from "../presentations";
 
 const Friend = createStackNavigator(
-  { FriendHome },
+  { FriendHome, FriendProfile },
   {
     initialRouteName: "FriendHome",
     navigationOptions: ({ navigation }) => ({

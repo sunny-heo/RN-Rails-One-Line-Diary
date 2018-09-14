@@ -42,7 +42,7 @@ const Row = ({ item, navigation }) => (
       secondaryText: item.user.email
     }}
     onPress={() => {
-      navigation.navigate("TodayDiary");
+      navigation.navigate("FriendProfile");
     }}
   />
 );
@@ -55,13 +55,6 @@ class IncomingRequestIndex extends Component {
       refreshing: false
     };
   }
-
-  // async componentDidMount() {
-  //   if (!this.props.friendRequest.fulfilledIndex) {
-  //     await this.props.index();
-  //   }
-  //   this.setState({ fecthing: false });
-  // }
 
   // _onRefresh = () => {
   //   this.setState({ refreshing: true });
@@ -85,7 +78,7 @@ class IncomingRequestIndex extends Component {
           // }
           data={friendRequest.data.incoming_requests}
           renderItem={({ item }) => {
-            return <Row item={item} />;
+            return <Row item={item} navigation={navigation} />;
           }}
           keyExtractor={(item, index) => index.toString()}
         />
