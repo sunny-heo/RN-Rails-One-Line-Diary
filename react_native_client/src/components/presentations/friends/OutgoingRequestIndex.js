@@ -78,7 +78,7 @@ class OutgoingRequestIndex extends Component {
           // }
           data={friendRequest.outgoingReqs}
           renderItem={({ item }) => {
-            return <Row item={item} navigate={navigate} />;
+            return <Row item={item} navigation={navigation} />;
           }}
           keyExtractor={item => item.id.toString()}
         />
