@@ -4,8 +4,6 @@ import { RectButton, Swipeable } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/Ionicons";
 import { withNavigation } from "react-navigation";
 
-import { diaryActions } from "../../actions";
-
 const actionItems = {
   Decline: { icon: "md-remove-circle", handler: "_handleOnDecline" },
   Confirm: { icon: "md-add-circle", handler: "_handleOnConfirm" }
@@ -32,9 +30,10 @@ class IncomingReqSwipeable extends Component {
       { cancelable: false }
     );
   };
-  _handleOnConfirm = () => {
-    const { incomingReq, dispatch } = this.props;
-    alert(incomingReq.id);
+  _handleOnConfirm = async () => {
+    const { incomingReq, update } = this.props;
+    // alert(dispatch);
+    await update(incomingReq.id);
     this.close();
   };
 

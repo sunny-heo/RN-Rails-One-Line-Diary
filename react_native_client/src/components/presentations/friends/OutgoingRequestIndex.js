@@ -76,7 +76,7 @@ class OutgoingRequestIndex extends Component {
           //     onRefresh={this._onRefresh}
           //   />
           // }
-          data={friendRequest.data.outgoing_requests}
+          data={friendRequest.outgoingReqs}
           renderItem={({ item }) => {
             return <Row item={item} navigate={navigate} />;
           }}

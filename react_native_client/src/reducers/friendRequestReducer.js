@@ -20,7 +20,9 @@ const {
 } = friendRequestConstants;
 
 const initialState = {
-  data: null,
+  // data: null,
+  incomingReqs: null,
+  outgoingReqs: null,
   pendingIndex: false,
   fulfilledIndex: false,
   rejectedIndex: false,
@@ -61,12 +63,17 @@ export default (state = initialState, action) => {
     }
 
     case FRIEND_REQUEST_INDEX_FULFILLED: {
+      const {
+        incoming_requests: incomingReqs,
+        outgoing_requests: outgoingReqs
+      } = action.payload;
       return {
         ...state,
         pendingIndex: false,
         fulfilledIndex: true,
         indexErrors: {},
-        data: action.payload
+        incomingReqs,
+        outgoingReqs
       };
     }
 
@@ -109,15 +116,14 @@ export default (state = initialState, action) => {
     }
 
     case FRIEND_REQUEST_UPDATE_FULFILLED: {
-      const updatedDiary = action.payload;
-
+      const confirmedReqId = action.payload;
       return {
         ...state,
         pendingUpdate: false,
         fulfilledUpdate: true,
         updateErrors: {},
-        data: state.data._removeObj(updatedDiary, "id"),
-        updatedData: updatedDiary
+        data: state.incomingReqs._removeObj(confirmedReqId, "id"),
+        updatedData: confirmedReqId
       };
     }
 

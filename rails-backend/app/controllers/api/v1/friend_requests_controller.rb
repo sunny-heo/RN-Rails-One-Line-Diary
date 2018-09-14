@@ -42,10 +42,11 @@ class Api::V1::FriendRequestsController < Api::ApplicationController
     @friend_request.accept
     request_user = @friend_request.user
     accept_user = @friend_request.friend
-    render json: {
-      request_user: request_user, 
-      accept_user: accept_user
-    } 
+    # render json: {
+    #   request_user: request_user, 
+    #   accept_user: accept_user
+    # } 
+    render json: @friend_request.id
   end
 
   def destroy

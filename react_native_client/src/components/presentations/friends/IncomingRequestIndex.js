@@ -26,6 +26,13 @@ const mapDispatchToProps = dispatch => {
       } catch (error) {
         console.log(error);
       }
+    },
+    update: async reqId => {
+      try {
+        await dispatch(friendRequestActions.update(reqId));
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 };
@@ -67,8 +74,8 @@ class IncomingRequestIndex extends Component {
   // };
 
   render() {
-    const { friendRequest, navigation, dispatch } = this.props;
-    console.log(friendRequest.data);
+    const { friendRequest, navigation, update } = this.props;
+    console.log(this.props);
 
     return (
       <View style={styles.root}>
@@ -79,13 +86,13 @@ class IncomingRequestIndex extends Component {
           //     onRefresh={this._onRefresh}
           //   />
           // }
-          data={friendRequest.data.incoming_requests}
+          data={friendRequest.incomingReqs}
           renderItem={({ item: incomingReq }) => {
             return (
               <IncomingReqSwipeable
                 incomingReq={incomingReq}
                 navigation={navigation}
-                dispatch={dispatch}
+                update={update}
               >
                 <Row incomingReq={incomingReq} navigation={navigation} />
               </IncomingReqSwipeable>
