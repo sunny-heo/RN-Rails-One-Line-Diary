@@ -57,7 +57,7 @@ puts Cowsay.say "Created #{friend_requests.count} friend_requests", :sheep
 friendships = Friendship.all
 puts Cowsay.say "Created #{friendships.count} friendships", :sheep
 
-100.times.each do
+1000.times.each do
   name = Faker::Beer.name
   disclose_date = Faker::Date.between( 4.year.from_now, Date.today)
   user = users.sample
