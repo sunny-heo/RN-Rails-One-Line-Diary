@@ -4,23 +4,25 @@ import { _array } from "../_helpers";
 const {
   FRIEND_REQUEST_INDEX_PENDING,
   FRIEND_REQUEST_INDEX_REJECTED,
-  FRIEND_REQUEST_INDEX_FULFILLED
+  FRIEND_REQUEST_INDEX_FULFILLED,
 
   // FRIEND_REQUEST_CREATE_PENDING,
   // FRIEND_REQUEST_CREATE_REJECTED,
   // FRIEND_REQUEST_CREATE_FULFILLED,
 
-  // FRIEND_REQUEST_UPDATE_PENDING,
-  // FRIEND_REQUEST_UPDATE_REJECTED,
-  // FRIEND_REQUEST_UPDATE_FULFILLED,
+  FRIEND_REQUEST_CONFIRM_PENDING,
+  FRIEND_REQUEST_CONFIRM_REJECTED,
+  FRIEND_REQUEST_CONFIRM_FULFILLED,
 
-  // FRIEND_REQUEST_DESTROY_PENDING,
-  // FRIEND_REQUEST_DESTROY_REJECTED,
-  // FRIEND_REQUEST_DESTROY_FULFILLED
+  FRIEND_REQUEST_DECLINE_PENDING,
+  FRIEND_REQUEST_DECLINE_REJECTED,
+  FRIEND_REQUEST_DECLINE_FULFILLED
 } = friendRequestConstants;
 
 const initialState = {
-  data: null,
+  // data: null,
+  incomingReqs: null,
+  outgoingReqs: null,
   pendingIndex: false,
   fulfilledIndex: false,
   rejectedIndex: false,
@@ -32,17 +34,17 @@ const initialState = {
   rejectedCreate: false,
   createErrors: {},
 
-  updatedData: null,
-  pendingUpdate: false,
-  fulfilledUpdate: false,
-  rejectedUpdate: false,
-  updateErrors: {},
+  confirmedReqId: null,
+  pendingConfirm: false,
+  fulfilledConfirm: false,
+  rejectedConfirm: false,
+  confirmErrors: {},
 
-  destroyedData: null,
-  pendingDestroy: false,
-  fulfilledDestroy: false,
-  rejectedDestroy: false,
-  destroyErrors: {}
+  declinedReqId: null,
+  pendingDecline: false,
+  fulfilledDecline: false,
+  rejectedDecline: false,
+  declineErrors: {}
 };
 
 export default (state = initialState, action) => {
@@ -61,12 +63,17 @@ export default (state = initialState, action) => {
     }
 
     case FRIEND_REQUEST_INDEX_FULFILLED: {
+      const {
+        incoming_requests: incomingReqs,
+        outgoing_requests: outgoingReqs
+      } = action.payload;
       return {
         ...state,
         pendingIndex: false,
         fulfilledIndex: true,
         indexErrors: {},
-        data: action.payload
+        incomingReqs,
+        outgoingReqs
       };
     }
 
@@ -95,56 +102,58 @@ export default (state = initialState, action) => {
     //   };
     // }
 
-    // case FRIEND_REQUEST_UPDATE_PENDING: {
-    //   return { ...state, pendingUpdate: true };
-    // }
+    case FRIEND_REQUEST_CONFIRM_PENDING: {
+      return { ...state, pendingConfirm: true };
+    }
 
-    // case FRIEND_REQUEST_UPDATE_REJECTED: {
-    //   return {
-    //     ...state,
-    //     pendingUpdate: false,
-    //     rejectedUpdate: true,
-    //     updateErrors: action.payload
-    //   };
-    // }
+    case FRIEND_REQUEST_CONFIRM_REJECTED: {
+      return {
+        ...state,
+        pendingConfirm: false,
+        rejectedConfirm: true,
+        confirmErrors: action.payload
+      };
+    }
 
-    // case FRIEND_REQUEST_UPDATE_FULFILLED: {
-    //   const updatedDiary = action.payload;
+    case FRIEND_REQUEST_CONFIRM_FULFILLED: {
+      const confirmedReqId = action.payload;
+      return {
+        ...state,
+        confirmedReqId,
+        pendingConfirm: false,
+        fulfilledConfirm: true,
+        confirmErrors: {},
+        incomingReqs: state.incomingReqs._removeObj(confirmedReqId, "id")
+      };
+    }
 
-    //   return {
-    //     ...state,
-    //     pendingUpdate: false,
-    //     fulfilledUpdate: true,
-    //     updateErrors: {},
-    //     data: state.data._replaceObj(updatedDiary, "id"),
-    //     updatedData: updatedDiary
-    //   };
-    // }
+    case FRIEND_REQUEST_DECLINE_PENDING: {
+      return { ...state, pendingDecline: true };
+    }
 
-    // case FRIEND_REQUEST_DESTROY_PENDING: {
-    //   return { ...state, pendingDestroy: true };
-    // }
+    case FRIEND_REQUEST_DECLINE_REJECTED: {
+      return {
+        ...state,
+        pendingDecline: false,
+        rejectedDecline: true,
+        declineErrors: action.payload
+      };
+    }
 
-    // case FRIEND_REQUEST_DESTROY_REJECTED: {
-    //   return {
-    //     ...state,
-    //     pendingDestroy: false,
-    //     rejectedDestroy: true,
-    //     destroyErrors: action.payload
-    //   };
-    // }
-
-    // case FRIEND_REQUEST_DESTROY_FULFILLED: {
-    //   const destroyedDiary = action.payload;
-    //   return {
-    //     ...state,
-    //     pendingDestroy: false,
-    //     fulfilledDESTROY: true,
-    //     destroyErrors: {},
-    //     data: state.data.filter(diary => diary.id !== destroyedDiary.id),
-    //     destroyedData: destroyedDiary
-    //   };
-    // }
+    case FRIEND_REQUEST_DECLINE_FULFILLED: {
+      const declinedReqId = action.payload;
+      console.log("----------------------------------");
+      console.log("declinedReqId => ", declinedReqId);
+      console.log("----------------------------------");
+      return {
+        ...state,
+        pendingDecline: false,
+        fulfilledDecline: true,
+        declineErrors: {},
+        incomingReqs: state.incomingReqs._removeObj(declinedReqId, "id"),
+        declinedReqId: declinedReqId
+      };
+    }
 
     default:
       return state;

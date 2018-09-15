@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   },
   tab: { backgroundColor: "#fff" },
   activeContainer: {
-    backgroundColor: "#ee3195"
+    backgroundColor: "#ff4081"
   },
   activeText: {
     color: "#fff"
