@@ -88,7 +88,6 @@ class FriendHome extends Component {
         <ActionButton
           icon="person-add"
           onPress={() => {
-            // console.log("pressed");
             navigation.navigate("FriendNew");
           }}
         />
