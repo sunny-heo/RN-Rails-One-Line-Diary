@@ -10,13 +10,13 @@ const {
   FRIEND_REQUEST_CREATE_REJECTED,
   FRIEND_REQUEST_CREATE_FULFILLED,
 
-  FRIEND_REQUEST_UPDATE_PENDING,
-  FRIEND_REQUEST_UPDATE_REJECTED,
-  FRIEND_REQUEST_UPDATE_FULFILLED,
+  FRIEND_REQUEST_CONFIRM_PENDING,
+  FRIEND_REQUEST_CONFIRM_REJECTED,
+  FRIEND_REQUEST_CONFIRM_FULFILLED,
 
-  FRIEND_REQUEST_DESTROY_PENDING,
-  FRIEND_REQUEST_DESTROY_REJECTED,
-  FRIEND_REQUEST_DESTROY_FULFILLED
+  FRIEND_REQUEST_DECLINE_PENDING,
+  FRIEND_REQUEST_DECLINE_REJECTED,
+  FRIEND_REQUEST_DECLINE_FULFILLED
 } = friendRequestConstants;
 
 export default {
@@ -42,31 +42,31 @@ export default {
   //   }
   // },
 
-  update: diary => async dispatch => {
-    dispatch({ type: FRIEND_REQUEST_UPDATE_PENDING });
+  update: reqId => async dispatch => {
+    dispatch({ type: FRIEND_REQUEST_CONFIRM_PENDING });
 
     try {
-      const updatedDiary = await friendRequestService.update(diary);
+      const confirmedReqId = await friendRequestService.update(reqId);
       dispatch({
-        type: FRIEND_REQUEST_UPDATE_FULFILLED,
-        payload: updatedDiary
+        type: FRIEND_REQUEST_CONFIRM_FULFILLED,
+        payload: confirmedReqId
       });
     } catch (error) {
-      dispatch({ type: FRIEND_REQUEST_UPDATE_REJECTED, payload: error });
+      dispatch({ type: FRIEND_REQUEST_CONFIRM_REJECTED, payload: error });
+    }
+  },
+
+  destroy: reqId => async dispatch => {
+    dispatch({ type: FRIEND_REQUEST_DECLINE_PENDING });
+
+    try {
+      const declinedReqId = await friendRequestService.destroy(reqId);
+      dispatch({
+        type: FRIEND_REQUEST_DECLINE_FULFILLED,
+        payload: declinedReqId
+      });
+    } catch (error) {
+      dispatch({ type: FRIEND_REQUEST_DECLINE_REJECTED, payload: error });
     }
   }
-
-  // destroy: diaryId => async dispatch => {
-  //   dispatch({ type: FRIEND_REQUEST_DESTROY_PENDING });
-
-  //   try {
-  //     const destroyedDiary = await friendRequestService.destroy(diaryId);
-  //     dispatch({
-  //       type: FRIEND_REQUEST_DESTROY_FULFILLED,
-  //       payload: destroyedDiary
-  //     });
-  //   } catch (error) {
-  //     dispatch({ type: FRIEND_REQUEST_DESTROY_REJECTED, payload: error });
-  //   }
-  // }
 };

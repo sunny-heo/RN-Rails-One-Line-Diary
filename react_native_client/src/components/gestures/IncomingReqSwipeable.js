@@ -11,19 +11,18 @@ const actionItems = {
 
 class IncomingReqSwipeable extends Component {
   _handleOnDecline = () => {
-    const { incomingReq, dispatch } = this.props;
+    const { incomingReq, declineReq } = this.props;
     this.close();
     Alert.alert(
       "Decline",
-      `Do you want to reject ${incomingReq.user.first_name}'s request?`,
+      `Do you want to decline ${incomingReq.user.first_name}'s request?`,
       [
         {
-          text: "Yes"
-          // onPress: () => dispatch(diaryActions.destroy(diary.id))
+          text: "Yes",
+          onPress: async () => await declineReq(incomingReq.id)
         },
         {
           text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         }
       ],
@@ -31,9 +30,9 @@ class IncomingReqSwipeable extends Component {
     );
   };
   _handleOnConfirm = async () => {
-    const { incomingReq, update } = this.props;
+    const { incomingReq, confirmReq } = this.props;
     // alert(dispatch);
-    await update(incomingReq.id);
+    await confirmReq(incomingReq.id);
     this.close();
   };
 

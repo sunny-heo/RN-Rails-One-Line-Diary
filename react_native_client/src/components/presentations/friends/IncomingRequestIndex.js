@@ -27,9 +27,16 @@ const mapDispatchToProps = dispatch => {
         console.log(error);
       }
     },
-    update: async reqId => {
+    confirmReq: async reqId => {
       try {
         await dispatch(friendRequestActions.update(reqId));
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    declineReq: async reqId => {
+      try {
+        await dispatch(friendRequestActions.destroy(reqId));
       } catch (error) {
         console.log(error);
       }
@@ -74,9 +81,7 @@ class IncomingRequestIndex extends Component {
   // };
 
   render() {
-    const { friendRequest, navigation, update } = this.props;
-    console.log(this.props);
-
+    const { friendRequest, navigation, confirmReq, declineReq } = this.props;
     return (
       <View style={styles.root}>
         <FlatList
@@ -92,7 +97,8 @@ class IncomingRequestIndex extends Component {
               <IncomingReqSwipeable
                 incomingReq={incomingReq}
                 navigation={navigation}
-                update={update}
+                confirmReq={confirmReq}
+                declineReq={declineReq}
               >
                 <Row incomingReq={incomingReq} navigation={navigation} />
               </IncomingReqSwipeable>
