@@ -52,33 +52,6 @@ const SearchBar = enhance(
   }
 );
 
-// class SearchBar extends Component {
-//   render() {
-//     return (
-//       <View style={styles.root}>
-//         <View style={styles.searchInputWrapper}>
-//           <Icon name="search" style={styles.searchIcon} />
-//           <TextInput
-//             ref={component => (this._textInput = component)}
-//             style={styles.searchInput}
-//             // onChangeText={text => this.setState({ text })}
-//             // value={this.state.text}
-//             onChangeText={text => {
-//               console.log(this._textInput);
-//             }}
-//           />
-//           <TouchableOpacity>
-//             <Icon name="cancel" style={styles.cancelIcon} />
-//           </TouchableOpacity>
-//         </View>
-//         <TouchableOpacity>
-//           <Text style={styles.cancelText}> Cancel </Text>
-//         </TouchableOpacity>
-//       </View>
-//     );
-//   }
-// }
-
 const styles = StyleSheet.create({
   root: {
     flex: 0.1,
