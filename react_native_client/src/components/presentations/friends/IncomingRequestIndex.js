@@ -20,13 +20,6 @@ import { IncomingReqSwipeable } from "../../gestures";
 const mapStateToProps = (state, nextOwnProps) => state;
 const mapDispatchToProps = dispatch => {
   return {
-    index: async () => {
-      try {
-        await dispatch(friendRequestActions.index());
-      } catch (error) {
-        console.log(error);
-      }
-    },
     confirmReq: async reqId => {
       try {
         await dispatch(friendRequestActions.update(reqId));

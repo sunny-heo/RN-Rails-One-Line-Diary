@@ -23,7 +23,7 @@ super_user = User.create(
   "admin": true
 )
 
-40.times.each do
+300.times.each do
   first_name = Faker::Name.first_name
   last_name = Faker::Name.last_name
   gender = [:male, :female, :neither].sample
@@ -41,12 +41,12 @@ users = User.all
 puts Cowsay.say "Created #{users.count} users", :sheep
 
 users.each do |user|
-  20.times do 
+  100.times do 
     friend = (users - [user]).sample
     FriendRequest.create(user: user, friend: friend)
   end
 
-  10.times do 
+  50.times do 
     user.friend_requests.sample.accept
   end
 end
@@ -57,7 +57,7 @@ puts Cowsay.say "Created #{friend_requests.count} friend_requests", :sheep
 friendships = Friendship.all
 puts Cowsay.say "Created #{friendships.count} friendships", :sheep
 
-1000.times.each do
+500.times.each do
   name = Faker::Beer.name
   disclose_date = Faker::Date.between( 4.year.from_now, Date.today)
   user = users.sample

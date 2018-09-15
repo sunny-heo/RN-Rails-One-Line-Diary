@@ -142,12 +142,15 @@ export default (state = initialState, action) => {
 
     case FRIEND_REQUEST_DECLINE_FULFILLED: {
       const declinedReqId = action.payload;
+      console.log("----------------------------------");
+      console.log("declinedReqId => ", declinedReqId);
+      console.log("----------------------------------");
       return {
         ...state,
         pendingDecline: false,
         fulfilledDecline: true,
         declineErrors: {},
-        data: state.incomingReqs._removeObj(declinedReqId, "id"),
+        incomingReqs: state.incomingReqs._removeObj(declinedReqId, "id"),
         declinedReqId: declinedReqId
       };
     }

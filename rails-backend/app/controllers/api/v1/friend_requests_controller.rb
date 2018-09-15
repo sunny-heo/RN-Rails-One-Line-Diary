@@ -51,6 +51,7 @@ class Api::V1::FriendRequestsController < Api::ApplicationController
 
   def destroy
     @friend_request.destroy
+    render json: @friend_request.id
   end
 
   private

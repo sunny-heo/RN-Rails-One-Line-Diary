@@ -12,7 +12,6 @@ const actionItems = {
 class IncomingReqSwipeable extends Component {
   _handleOnDecline = () => {
     const { incomingReq, declineReq } = this.props;
-    this.close();
     Alert.alert(
       "Decline",
       `Do you want to decline ${incomingReq.user.first_name}'s request?`,
@@ -26,12 +25,12 @@ class IncomingReqSwipeable extends Component {
           style: "cancel"
         }
       ],
-      { cancelable: false }
+      { cancelable: true }
     );
+    this.close();
   };
   _handleOnConfirm = async () => {
     const { incomingReq, confirmReq } = this.props;
-    // alert(dispatch);
     await confirmReq(incomingReq.id);
     this.close();
   };
@@ -78,7 +77,7 @@ class IncomingReqSwipeable extends Component {
   renderRightActions = progress => (
     <View style={{ width: 192, flexDirection: "row" }}>
       {/* {this.renderRightAction("More", "#C8C7CD", 192, progress)} */}
-      {this.renderRightAction("Confirm", "#ffab00", 128, progress)}
+      {this.renderRightAction("Confirm", "#17c4db", 128, progress)}
       {this.renderRightAction("Decline", "#dd2c00", 64, progress)}
     </View>
   );
