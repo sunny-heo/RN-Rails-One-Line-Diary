@@ -56,6 +56,7 @@ class TodayIndex extends Component {
         />
 
         <ActionButton
+          icon="library-add"
           onPress={() => {
             navigation.navigate("DiaryNew");
           }}

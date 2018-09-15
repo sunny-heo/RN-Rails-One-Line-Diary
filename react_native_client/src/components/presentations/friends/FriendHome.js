@@ -73,7 +73,7 @@ class FriendHome extends Component {
   };
 
   render() {
-    const { friendRequest, navigation, dispatch } = this.props;
+    const { navigation } = this.props;
     const { active } = this.state;
     return (
       <View style={styles.root}>
@@ -85,6 +85,13 @@ class FriendHome extends Component {
             <Presentation active={active} />
           )}
         </View>
+        <ActionButton
+          icon="person-add"
+          onPress={() => {
+            // console.log("pressed");
+            navigation.navigate("FriendNew");
+          }}
+        />
       </View>
     );
   }
