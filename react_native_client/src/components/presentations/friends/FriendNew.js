@@ -20,35 +20,21 @@ const mapStateToProps = (state, nextOwnProps) => state;
 class FriendNew extends Component {
   constructor() {
     super();
-    this.state = {
-      name: "",
-      isDateTimePickerVisible: false,
-      discloseDate: null,
-      selectedItems: [],
-      errors: {}
-    };
+    this.state = { text: "" };
   }
+  onChangeText = text => {
+    clearTimeout(this.timerId);
+    this.timerId = setTimeout(() => this.setState({ text }), 1000);
+  };
 
   render() {
     return (
       <View style={styles.root}>
-        <SearchBar />
-        {/* <View style={styles.rootSearchBar}>
-          <View style={styles.childSearchBar}>
-            <Icon name="search" style={styles.searchIcon} />
-            <TextInput
-              style={styles.searchInput}
-              onChangeText={text => this.setState({ text })}
-              value={this.state.text}
-            />
-            <TouchableOpacity>
-              <Icon name="cancel" style={styles.cancelIcon} />
-            </TouchableOpacity>
-          </View>
-          <TouchableOpacity>
-            <Text style={styles.cancelText}> Cancel </Text>
-          </TouchableOpacity>
-        </View> */}
+        <SearchBar
+          onChangeText={this.onChangeText}
+          onPressCancel={() => console.log("pressed")}
+        />
+        {/* <Text>{this.state.text}</Text> */}
       </View>
     );
   }

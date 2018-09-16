@@ -8,6 +8,8 @@ Rails.application.routes.draw do
       end
       resources :friends, only: [:index, :destroy]
       resources :friend_requests, only: [:index, :create, :update, :destroy]
+
+      get '/search/:user', to: 'search#user', :as => 'search'
     end
   end
 end

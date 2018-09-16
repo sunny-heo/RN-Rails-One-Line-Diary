@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { compose, withState, lifecycle } from "recompose";
+import { compose, withState, lifecycle, withHandlers } from "recompose";
 import {
   View,
   Text,
+  Keyboard,
   TextInput,
   TouchableOpacity,
   StyleSheet
@@ -16,14 +17,40 @@ const ICON_SIZE = RF(3);
 const enhance = compose(
   withState("_text", "_setText", ""),
   withState("_textInputRef", "_setTextInputRef", null),
+  withState("_keyboardDidShowListener", "_setKeyboardDidShowListener", null),
+  withHandlers({
+    handleOnTextChange: ({ onChangeText, _setText }) => text => {
+      onChangeText(text);
+      _setText(text);
+    },
+    _handleOnPressReset: ({ _setText }) => () => _setText(""),
+    handleOnPressCancel: ({ onPressCancel }) => () => onPressCancel()
+  }),
   lifecycle({
+    componentDidMount() {
+      const { _setKeyboardDidShowListener } = this.props;
+      _setKeyboardDidShowListener(
+        Keyboard.addListener("keyboardDidShow", () => {
+          console.log("keyboardDidShow");
+        })
+      );
+    },
     componentDidUpdate() {
       this.props._textInputRef.focus();
     }
   })
 );
 const SearchBar = enhance(
-  ({ _text, _setText, _textInputRef, _setTextInputRef }) => {
+  ({
+    _text,
+    _setText,
+    _textInputRef,
+    onChangeText,
+    _setTextInputRef,
+    handleOnTextChange,
+    _handleOnPressReset,
+    handleOnPressCancel
+  }) => {
     return (
       <View style={styles.root}>
         <View style={styles.searchInputWrapper}>
@@ -32,19 +59,14 @@ const SearchBar = enhance(
             ref={_setTextInputRef}
             style={styles.searchInput}
             value={_text}
-            onChangeText={text => {
-              _setText(text);
-            }}
+            onChangeText={handleOnTextChange}
+            onSubmitEditing={Keyboard.dismiss}
           />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={_handleOnPressReset}>
             <Icon name="cancel" style={styles.cancelIcon} />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          onPress={() => {
-            _textInputRef.focus();
-          }}
-        >
+        <TouchableOpacity onPress={handleOnPressCancel}>
           <Text style={styles.cancelText}> Cancel </Text>
         </TouchableOpacity>
       </View>
