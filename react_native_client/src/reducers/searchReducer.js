@@ -1,14 +1,14 @@
-import { friendRequestConstants } from "../config/constants";
+import { searchConstants } from "../config/constants";
 import { _array } from "../_helpers";
 
 const {
   SEARCH_USER_PENDING,
   SEARCH_USER_REJECTED,
   SEARCH_USER_FULFILLED
-} = friendRequestConstants;
+} = searchConstants;
 
 const initialState = {
-  userSearchReuslt: null,
+  userResult: null,
   pendingSearchUser: false,
   fulfilledSearchUser: false,
   rejectedSearchUser: false,
@@ -17,11 +17,11 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case SEARCH_USER_INDEX_PENDING: {
+    case SEARCH_USER_PENDING: {
       return { ...state, pendingSearchUser: true };
     }
 
-    case SEARCH_USER_INDEX_REJECTED: {
+    case SEARCH_USER_REJECTED: {
       return {
         ...state,
         pendingSearchUser: false,
@@ -30,12 +30,12 @@ export default (state = initialState, action) => {
       };
     }
 
-    case SEARCH_USER_INDEX_FULFILLED: {
+    case SEARCH_USER_FULFILLED: {
       return {
         ...state,
         pendingSearchUser: false,
         fulfilledSearchUser: true,
-        userSearchReuslt: action.payload,
+        userResult: action.payload,
         searchUserErrors: {}
       };
     }

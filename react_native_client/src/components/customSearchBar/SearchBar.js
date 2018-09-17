@@ -19,9 +19,9 @@ const enhance = compose(
   withState("_textInputRef", "_setTextInputRef", null),
   withState("_keyboardDidShowListener", "_setKeyboardDidShowListener", null),
   withHandlers({
-    handleOnTextChange: ({ onChangeText, _setText }) => text => {
-      onChangeText(text);
-      _setText(text);
+    handleOnTextChange: ({ onChangeText, _setText }) => async text => {
+      await onChangeText(text);
+      await _setText(text);
     },
     _handleOnPressReset: ({ _setText }) => () => _setText(""),
     handleOnPressCancel: ({ onPressCancel }) => () => onPressCancel()

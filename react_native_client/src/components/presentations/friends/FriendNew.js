@@ -14,8 +14,20 @@ import {
 
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { SearchBar } from "../../customSearchBar";
+import { searchActions } from "../../../actions";
 
 const mapStateToProps = (state, nextOwnProps) => state;
+const mapDispatchToProps = dispatch => {
+  return {
+    searchUser: async keyword => {
+      try {
+        keyword && (await dispatch(searchActions.user(keyword)));
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+};
 
 class FriendNew extends Component {
   constructor() {
@@ -24,7 +36,7 @@ class FriendNew extends Component {
   }
   onChangeText = text => {
     clearTimeout(this.timerId);
-    this.timerId = setTimeout(() => this.setState({ text }), 1000);
+    this.timerId = setTimeout(() => this.props.searchUser(text), 1000);
   };
 
   render() {
@@ -48,4 +60,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect(mapStateToProps)(FriendNew);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FriendNew);

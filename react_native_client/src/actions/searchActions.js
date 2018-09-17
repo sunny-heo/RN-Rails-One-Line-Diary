@@ -9,11 +9,12 @@ const {
 } = searchConstants;
 
 export default {
-  user: () => async dispatch => {
+  user: keyword => async dispatch => {
     dispatch({ type: SEARCH_USER_PENDING });
 
     try {
-      const searchResults = await searchService.user();
+      const searchResults = await searchService.user(keyword);
+
       dispatch({ type: SEARCH_USER_FULFILLED, payload: searchResults });
     } catch (error) {
       dispatch({ type: SEARCH_USER_REJECTED, payload: error });
