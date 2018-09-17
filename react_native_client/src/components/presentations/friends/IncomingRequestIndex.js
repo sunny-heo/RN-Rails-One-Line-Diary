@@ -46,10 +46,10 @@ const Row = ({ incomingReq, navigation }) => (
       </Text>
     }
     centerElement={{
-      primaryText: `${incomingReq.user.first_name} ${
-        incomingReq.user.last_name
+      primaryText: `${incomingReq.request_sender.first_name} ${
+        incomingReq.request_sender.last_name
       }`,
-      secondaryText: incomingReq.user.email
+      secondaryText: incomingReq.request_sender.email
     }}
     onPress={() => {
       navigation.navigate("FriendProfile");

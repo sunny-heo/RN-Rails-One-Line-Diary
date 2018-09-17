@@ -9,8 +9,7 @@ export default createSwitchNavigator(
   {
     AuthLoading,
     App,
-    Auth,
-    FriendNew
+    Auth
   },
   {
     initialRouteName: "AuthLoading"

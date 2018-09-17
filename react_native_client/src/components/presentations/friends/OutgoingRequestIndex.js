@@ -38,8 +38,10 @@ const Row = ({ item, navigation }) => (
       </Text>
     }
     centerElement={{
-      primaryText: `${item.friend.first_name} ${item.friend.last_name}`,
-      secondaryText: item.friend.email
+      primaryText: `${item.request_receiver.first_name} ${
+        item.request_receiver.last_name
+      }`,
+      secondaryText: item.request_receiver.email
     }}
     onPress={() => {
       navigation.navigate("FriendProfile");
