@@ -4,24 +4,10 @@ class Api::V1::FriendRequestsController < Api::ApplicationController
   def index
     incoming_requests = FriendRequest.where(:friend => current_user).order(created_at: :desc)
     outgoing_requests = current_user.friend_requests.order(created_at: :desc)
-
-    render json: {
-      incoming_requests: incoming_requests.as_json(
-        :only => [ :id, :created_at ], 
-        include: { 
-          user: {
-            only: [:email, :first_name, :last_name]
-          }
-        }
-      ), 
-      outgoing_requests: outgoing_requests.as_json(
-        :only => [ :id, :created_at ], 
-        include: {
-          friend: {
-            only: [:email, :first_name, :last_name]
-          }
-        }
-      )
+    
+    render json: { 
+      incoming_requests: data_obj_array_as_json(incoming_requests, IncomingFriendRequestSerializer),
+      outgoing_requests: data_obj_array_as_json(outgoing_requests, OutgoingFriendRequestSerializer)
     }  
   end 
     
@@ -58,6 +44,8 @@ class Api::V1::FriendRequestsController < Api::ApplicationController
   def find_friend_request
     @friend_request = FriendRequest.find(params[:id])
   end
+
+
 
   def get_incoming_outcoming_requests
     incoming_requests = FriendRequest.where(:friend => current_user).order(created_at: :desc)

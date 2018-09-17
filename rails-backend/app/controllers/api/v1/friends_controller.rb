@@ -1,4 +1,4 @@
-class Api::V1::FriendsController < ApplicationController
+class Api::V1::FriendsController < Api::ApplicationController
   def index
   end
 

@@ -17,4 +17,8 @@ class Api::ApplicationController < ApplicationController
       render json: {status: :unauthorized}, status: :unauthorized 
     end
   end
+
+  def data_obj_array_as_json(data_obj_array, serializer)
+    ActiveModelSerializers::SerializableResource.new(data_obj_array, each_serializer: serializer)
+  end
 end
