@@ -50,6 +50,14 @@ class Home extends Component {
     };
   };
 
+  print() {
+    console.log(this);
+  }
+
+  arrowPrint = () => {
+    console.log(this);
+  };
+
   _navigateToProfile = () => {
     this.props.navigation.navigate("Profile");
   };
@@ -65,6 +73,8 @@ class Home extends Component {
   };
 
   render() {
+    this.print();
+    this.arrowPrint();
     const { active } = this.state;
     return (
       <View style={styles.container}>

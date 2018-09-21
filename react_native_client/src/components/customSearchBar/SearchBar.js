@@ -19,12 +19,15 @@ const enhance = compose(
   withState("_textInputRef", "_setTextInputRef", null),
   withState("_keyboardDidShowListener", "_setKeyboardDidShowListener", null),
   withHandlers({
-    handleOnTextChange: ({ onChangeText, _setText }) => text => {
+    handleOnTextChange: ({ onChangeText }) => text => {
       onChangeText(text);
-      _setText(text);
     },
-    _handleOnPressReset: ({ _setText }) => () => _setText(""),
-    handleOnPressCancel: ({ onPressCancel }) => () => onPressCancel()
+    _handleOnPressReset: ({ _setText }) => () => {
+      _setText("");
+    },
+    handleOnPressCancel: ({ onPressCancel }) => () => {
+      onPressCancel();
+    }
   }),
   lifecycle({
     componentDidMount() {
@@ -58,7 +61,6 @@ const SearchBar = enhance(
           <TextInput
             ref={_setTextInputRef}
             style={styles.searchInput}
-            value={_text}
             onChangeText={handleOnTextChange}
             onSubmitEditing={Keyboard.dismiss}
           />
