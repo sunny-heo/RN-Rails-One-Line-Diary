@@ -12,7 +12,13 @@ import {
   StyleSheet
 } from "react-native";
 
-import { Avatar, ListItem, ActionButton, Icon } from "react-native-material-ui";
+import {
+  Avatar,
+  ListItem,
+  Button,
+  ActionButton,
+  Icon
+} from "react-native-material-ui";
 import { SearchBar } from "../../customSearchBar";
 import { searchActions } from "../../../actions";
 
@@ -45,6 +51,7 @@ const Row = ({ user, navigation }) => {
         primaryText: `${first_name} ${last_name}`,
         secondaryText: email
       }}
+      rightElement={<Button primary raised upperCase={false} text="add" />}
       // onPress={() => {
       //   navigation.navigate("FriendProfile");
       // }}

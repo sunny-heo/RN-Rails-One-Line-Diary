@@ -19,7 +19,7 @@ const enhance = compose(
   withState("_textInputRef", "_setTextInputRef", null),
   withState("_keyboardDidShowListener", "_setKeyboardDidShowListener", null),
   withHandlers({
-    handleOnTextChange: ({ onChangeText, _setText }) => text => {
+    handleOnTextChange: ({ onChangeText }) => text => {
       onChangeText(text);
     },
     _handleOnPressReset: ({ _setText }) => () => {
